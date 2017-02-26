@@ -3,11 +3,64 @@ import time
 import os
 import subprocess
 import functions
+from logicalParser import nested_bool_eval
 
 def mode1(tweets):
-    trainingSet = []
+    result = []
+    flag = "r"
+
+    while flag == "r":
+        condition_s = raw_input("Indicate the keywords (kA, kB, kC) restrictions with logic," 
+                        + " for instance, kA or (kB and kC): ")
+        condition_l = condition.replace("("," ").replace(")"," ").replace("and"," ").replace("or"," ").split()
+
+        for tweet in tweets:
+            for condition in condition_l:
+                if condition in tweet:
+                    condition_s.replace(condition, "True") 
+                else:
+                    condition_s.replace(condition, "False") 
+            if nested_bool_eval(condition_s):
+                result.append(tweet) 
+        flag = raw_input(str(len(result)) + "tweets are selected, save(s) them or reselect(r)?: ") or "s" 
+    functions.writeList(result1, "positive.txt")
+
 
 def mode2(tweets):
+    result1 = []
+    result2 = []
+    s = ""
+    print ("Indicate how you want to deal with each tweet by typing \n"
+        + "Class1(1), Class2(2), Discard(d, default), CheckProgress(c), SaveProgressAndQuit(sq), QuitWithoutSaving(q)\n") 
+
+    count = 0
+    for tweet in tweets:
+        if (s == "sq" or s == "q"):
+            break
+        count += 1
+        print "No." + str(count) + " " + tweet
+
+        s = raw_input ("Indicate your choice among 1, 2, d, c, sq, q: ") or "d"
+        if (s == "1"):
+            result1.append(tweet)
+        if (s == "2"):
+            result2.append(tweet)
+
+        while (s == "c"):
+            print "In class1, " + str(len(result1)) + " tweets are selected."
+            print "In class2: " + str(len(result2)) + " tweets are selected."
+            s = raw_input ("Indicate your choice among 1, 2, d, c, sq, q: ") or "d"
+            if (s == "1"):
+                result1.append(tweet)
+            if (s == "2"):
+                result2.append(tweet)
+
+        print ""
+
+    if (s == "sq"):
+        functions.writeList(result1, "positive.txt")
+        functions.writeList(result2, "negative.txt")
+        
 
 if __name__ == "__main__":
     functions.startingInfo()
@@ -31,11 +84,10 @@ if __name__ == "__main__":
             + "1. select by key words \n"
             + "2. select one by one manually \n"
             + "select the mode you want: "
-            ) or 1
+            ) or "2" 
+    print ""
 
-    if mode == 1:
+    if mode == "1":
         mode1(tweets)
-    if mode == 2:
+    if mode == "2":
         mode2(tweets)
-
-

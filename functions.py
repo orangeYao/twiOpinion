@@ -81,43 +81,6 @@ def useFilter(string_list, need_freq):
     else:
         return return_text
 
-def wrtieStringForLabel(path): 
-	#1. read from raw crawled text, return and write without handling 
-	#2. check whether labeled file exists, otherwise generate a
-	#	series of random scores called 'fakeScore'
-	i = 0
-	f2 = open('localData/filtered_avoid_ovwrite.dat', 'w')
-	f3 = open('localData/label_avoid_ovwrite.dat', 'w')
-	input_list = []
-	input_fake_score = []
-	with open(path) as f:
-		for line in f:
-			if len(line.split()) > 5:
-				i += 1
-				f2.write("%d: \t %s" % (i, line))
-				f3.write("%d: \t %s"  %(i, '*1'+'\n'))
-	f.close()
-	f2.close()
-	f3.close()
-
-
-def readLabeledFile():
-    # read in labeled file in 'localData'
-    filtered_file = 'localData/filtered.dat'
-    labeled_file = 'localData/label.dat'
-    if os.path.isfile(labeled_file) == True:
-        return readLabel(filtered_file), readLabel(labeled_file)     
-
-def readLabel(path):
-    input_score = []
-    with open(path, 'r') as f:
-        reader = csv.reader(f, dialect='excel', delimiter='\t')
-        for row in reader:
-            if len(row) != 2:
-                print "###########error in reading filtered file!!!"
-            input_score.append(row[1])
-    return input_score
-	
 	
 def filterZeroScore(word_list):
     # filter (string, score) in which score == ' 0'
@@ -164,3 +127,14 @@ def readManyStrings(path):
         for line in f:
             input_list.append(line)
     return input_list
+
+def writeList(listname, filename):
+    f = open(filename, "w")
+    count = 0;
+    for line in listname:
+        f.write(line + '\n')
+        count += 1
+    return count
+
+
+
