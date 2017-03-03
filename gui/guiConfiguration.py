@@ -3,11 +3,10 @@ import AppKit
 
 
 website = "(https://apps.twitter.com)"
-start_bt_ms = "Welcome! Paste your keys here. " + website 
+start_bt_ms = "Welcome! Paste your keys above. " + website 
 
 def greeting():
     return "Welcome to twiOpinion 0.1.3!" 
-
 
 class App(tk.Frame):
     def __init__(self, master):
@@ -18,8 +17,8 @@ class App(tk.Frame):
         self.master.tk_setPalette(background='#ececec')
 
         self.master.protocol('WM_DELETE_WINDOW', self.click_cancel)
-        #self.master.bind('<Return>', self.click_ok)
-        #self.master.bind('<Escape>', self.click_cancel)
+        self.master.bind('<Return>', self.click_ok)
+        self.master.bind('<Escape>', self.click_cancel)
 
         x = (self.master.winfo_screenwidth() - self.master.winfo_reqwidth()) / 2
         y = (self.master.winfo_screenheight() - self.master.winfo_reqheight()) / 3
@@ -92,7 +91,13 @@ class App(tk.Frame):
         self.programOutput.set("Configuration file has been generated! You can quit now.")
         global start_bt_ms
         start_bt_ms = "Configuration file has been generated! You can quit now."
-        print self.l1.get() + "\n" + self.l2.get() + "\n" + self.l3.get()+ "\n" + self.l4.get()
+        keys = ["consumer_key = "+self.l1.get(), "consumer_secret = "+self.l2.get(),
+                "access_token = "+self.l3.get(), "access_secret = "+self.l4.get()]
+
+        f = open("config.py", "w")
+        for line in keys:
+            print line
+            f.write(line + '\n')
 
     def click_cancel(self, event=None):
         print("The user clicked 'Cancel'")
