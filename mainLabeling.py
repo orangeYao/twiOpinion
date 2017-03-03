@@ -23,7 +23,7 @@ def mode1(tweets):
             if nested_bool_eval(condition_s):
                 result.append(tweet) 
         flag = raw_input(str(len(result)) + "tweets are selected, save(s) them or reselect(r)?: ") or "s" 
-    functions.writeList(result1, "positive.txt")
+    functions.writeList(result1, "output/positive.txt")
 
 
 def mode2(tweets):
@@ -58,8 +58,8 @@ def mode2(tweets):
         print ""
 
     if (s == "sq"):
-        functions.writeList(result1, "positive.txt")
-        functions.writeList(result2, "negative.txt")
+        functions.writeList(result1, "output/positive.txt")
+        functions.writeList(result2, "output/negative.txt")
         
 
 if __name__ == "__main__":

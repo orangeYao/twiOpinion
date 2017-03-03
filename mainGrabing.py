@@ -6,7 +6,7 @@ import functions
 
 def grabSetting():
     word_to_grab = raw_input("The tag or keyword you wish to grab from Twitter: ") or "China"
-    #path = raw_input("The folder to you wish to store information (default as ./output): ") or "./output"
+    #path = raw_input("The folder you wish to store information in (default as ./output): ") or "./output"
 
     path = "./output"
     if (path == "./output" and not os.path.exists("./output")):

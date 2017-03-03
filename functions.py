@@ -10,6 +10,10 @@ import csv
 import os
 
 def startingInfo():
+    with open ("startingInfo.txt", "r") as myfile:
+        data=myfile.read()
+    print data
+
     print "Welcome to twiOpinion 0.1.3!"
     print "This is interactive version"
     print ""
