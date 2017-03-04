@@ -1,12 +1,9 @@
 import Tkinter as tk
 import AppKit
+from versionControl import greeting
 
 start_bt_ms = "Welcome! Now you can start machine learning!" 
 next_bt_ms = "Result will be displayed here"
-
-def greeting():
-    return "Welcome to twiOpinion 0.1.3!" 
-
 
 class App(tk.Frame):
     def __init__(self, master):
@@ -28,8 +25,8 @@ class App(tk.Frame):
 
 
         tk.Message(self, text= greeting(),
-                   font='System 14 bold', justify='left', aspect=800).pack(pady=(5, 0))
-        tk.Message(self, text= "Step 3. Start Learning",
+                   font='System 18 bold', justify='left', aspect=800).pack(pady=(5, 0))
+        tk.Message(self, text= "Step 3. Learning",
                    font='System 14 bold', justify='left', aspect=800).pack(pady=(5, 0))
 
         ## frame 1
@@ -64,7 +61,7 @@ class App(tk.Frame):
               ).grid(row=1, column=0)
         R2 = tk.Radiobutton(f1_5, text="Naive Bayes", variable=var, value=2
               ).grid(row=1, column=1)
-        R2 = tk.Radiobutton(f1_5, text="Decision Tree", variable=var, value=2
+        R3 = tk.Radiobutton(f1_5, text="Decision Tree", variable=var, value=3
               ).grid(row=1, column=2)
 
         ##frame 2
@@ -105,7 +102,7 @@ class App(tk.Frame):
         self.master.destroy()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__": 
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
 

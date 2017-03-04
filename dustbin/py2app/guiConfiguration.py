@@ -102,7 +102,7 @@ class App(tk.Frame):
         self.master.destroy()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
 
