@@ -1,6 +1,6 @@
 import Tkinter as tk
-import AppKit
 from versionControl import greeting
+import AppKit
 
 start_bt_ms = "Welcome! Now you can start machine learning!" 
 next_bt_ms = "Result will be displayed here"
@@ -64,6 +64,8 @@ class App(tk.Frame):
         R3 = tk.Radiobutton(f1_5, text="Decision Tree", variable=var, value=3
               ).grid(row=1, column=2)
 
+
+        print var.get()
         ##frame 2
         f2 = tk.Frame(self)
         f2.pack(padx=60, pady=30, anchor='w')
@@ -105,7 +107,6 @@ class App(tk.Frame):
 if __name__ == "__main__": 
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
-
     root = tk.Tk()
     app = App(root)
     AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)

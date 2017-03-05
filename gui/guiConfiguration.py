@@ -1,6 +1,6 @@
 import Tkinter as tk
-import AppKit
 from versionControl import greeting
+import AppKit
 
 
 website = "(https://apps.twitter.com)"
@@ -105,7 +105,6 @@ class App(tk.Frame):
 if __name__ == "__main__":
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
-
     root = tk.Tk()
     app = App(root)
     AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)

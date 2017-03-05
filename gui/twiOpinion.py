@@ -1,5 +1,4 @@
 import Tkinter as tk
-import AppKit
 import subprocess
 from versionControl import greeting
 from versionControl import startingInfo 
@@ -102,11 +101,7 @@ class App(tk.Frame):
         self.master.destroy()
 
 if __name__ == '__main__':
-    info = AppKit.NSBundle.mainBundle().infoDictionary()
-    info['LSUIElement'] = True
-
     root = tk.Tk()
     app = App(root)
-    AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
     app.mainloop()
 

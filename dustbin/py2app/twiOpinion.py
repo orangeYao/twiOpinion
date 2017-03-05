@@ -1,13 +1,13 @@
 import Tkinter as tk
 import subprocess
-import AppKit
 from versionControl import greeting
 from versionControl import startingInfo 
-import os
-import guiConfiguration
-import guiGrabing
+from guiConfiguration import configuration 
+from guiCrawling import crawling
+from guiLearning import learning 
+import time
 
-start_bt_ms = os.getcwd() 
+start_bt_ms = "Welcome! Think about the function you want."
 
 class App(tk.Frame):
     def __init__(self, master):
@@ -55,7 +55,7 @@ class App(tk.Frame):
         tk.Label(f1_5, text= ' ').grid(row=6,column=0,columnspan=9,sticky='w')
         self.programOutput = tk.StringVar()
         tk.Label(f1_5, anchor="w",fg="white",bg="blue", textvariable=self.programOutput, 
-                width=95).grid(row=7, column=0,sticky='w')
+                width=35).grid(row=7, column=0,sticky='w')
         self.programOutput.set(start_bt_ms)        
 
 
@@ -69,6 +69,8 @@ class App(tk.Frame):
         self.stb2 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
         self.stb2.pack(side='right', padx=10)
 
+    def value1(self, event=None):
+        subprocess.Popen(["python", "guiGrabing.py"])
 
     def hover_on(self, event=None):
         if self.var.get() == 0:
@@ -91,11 +93,11 @@ class App(tk.Frame):
         start_bt_ms = "Function started."
 
         if self.var.get() == 1:
-            subprocess.Popen(["python","guiConfiguration.py"])
+            configuration() 
         elif self.var.get() == 2:
-            subprocess.Popen(["python","guiGrabing.py"])
+            crawling()
         elif self.var.get() == 4:
-            subprocess.Popen(["python","guiLearning.py"],bufsize=0)
+            learning()
 
 
     def click_cancel(self, event=None):
@@ -103,10 +105,6 @@ class App(tk.Frame):
         self.master.destroy()
 
 if __name__ == '__main__':
-    info = AppKit.NSBundle.mainBundle().infoDictionary()
-    info['LSUIElement'] = True
     root = tk.Tk()
     app = App(root)
-    AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
     app.mainloop()
-

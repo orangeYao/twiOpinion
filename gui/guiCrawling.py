@@ -1,7 +1,6 @@
 import Tkinter as tk
-import AppKit
 from versionControl import greeting
-
+import AppKit
 
 start_bt_ms = "Welcome! Think about the keyword you want to know."
 

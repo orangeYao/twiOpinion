@@ -1,19 +1,25 @@
 #coding:utf-8
 #!/usr/bin/python
 
-from Tkinter import *
+import argparse
 
-def say_hello():
-    print '你好，gui !'
+def get_parser():
+    """Get parser for command line arguments."""
+    parser = argparse.ArgumentParser(description="Twitter Downloader")
+    parser.add_argument("-q",
+                        "--query",
+                        dest="query",
+                        help="Query/Filter",
+                        default='-')
+    parser.add_argument("-d",
+                        "--data-dir",
+                        dest="data_dir",
+                        help="Output/Data Directory")
+    return parser
 
-#　根窗口
-root = Tk() 
-root.title('window with command') #主窗口标题
-root.geometry('400x200')  #主窗口大小，中间的为英文字母x
 
-# 次级窗口
-com = Button(root,text = '打招呼', command = say_hello) #　第一个参数root说明com按钮是root的孩子，text指按钮的名称，command指点击按钮时所执行的操作
-com.pack(side = BOTTOM)  #　次级窗口的位置摆放位置
-
-# 事件循环
-root.mainloop()
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+    print type(args)
+    print args.data_dir

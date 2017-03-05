@@ -1,7 +1,6 @@
 import Tkinter as tk
-import AppKit
 from versionControl import greeting
-
+import AppKit
 
 website = "(https://apps.twitter.com)"
 start_bt_ms = "Welcome! Paste your keys above. " + website 
@@ -59,9 +58,8 @@ class App(tk.Frame):
         f2 = tk.Frame(self)
         f2.pack(padx=60, pady=30, anchor='w')
 
-        self.programOutput = tk.StringVar()
-        label = tk.Label(f2, anchor="w",fg="white",bg="blue", textvariable=self.programOutput, width=45).pack()
-        self.programOutput.set(start_bt_ms)
+        self.label = tk.Label(f2, anchor="w",fg="white",bg="blue",text=start_bt_ms, width=45)
+        self.label.pack()
 
         ## frame last 
         self.changeButton = tk.BooleanVar()
@@ -79,14 +77,13 @@ class App(tk.Frame):
 
 
     def hover_on(self, event=None):
-        self.programOutput.set("Click to generate configuration file")
+        self.label.config(text="Click to generate configuration file")
 
     def hover_off(self, event=None):
-        self.programOutput.set(start_bt_ms) 
-
+        self.label.config(text=start_bt_ms)
 
     def click_ok(self, event=None):
-        self.programOutput.set("Configuration file has been generated! You can quit now.")
+        self.label.config(text="Configuration file has been generated! You can quit now.")
         global start_bt_ms
         start_bt_ms = "Configuration file has been generated! You can quit now."
         keys = ["consumer_key = "+self.l1.get(), "consumer_secret = "+self.l2.get(),
@@ -102,10 +99,9 @@ class App(tk.Frame):
         self.master.destroy()
 
 
-if __name__ == '__main__':
+def configuration():
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
-
     root = tk.Tk()
     app = App(root)
     AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
