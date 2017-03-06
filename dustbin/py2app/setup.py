@@ -8,13 +8,15 @@ Usage:
 from setuptools import setup
 
 APP = ['twiOpinion.py']
-DATA_FILES = ['guiConfiguration.py','guiGrabing.py','guiLearning.py','versionControl.py']
-OPTIONS = {'argv_emulation': True,
-        'iconfile': 'Spider.icns'}
+DATA_FILES = ['guiConfiguration.py','guiCrawling.py','guiLearning.py',
+                'config.py','readJson.py','versionControl.py']
+
+OPTIONS = {'argv_emulation': True, 'iconfile': 'Spider.icns', 'packages' : ['tweepy', 'guess_language', 'nltk']}
+#OPTIONS = {'argv_emulation': True, 'iconfile': 'Spider.icns'}
 
 setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    setup_requires=['py2app'],
+    setup_requires=['py2app']
 )

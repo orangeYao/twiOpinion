@@ -2,6 +2,7 @@ import Tkinter as tk
 from versionControl import greeting
 import AppKit
 
+
 website = "(https://apps.twitter.com)"
 start_bt_ms = "Welcome! Paste your keys above. " + website 
 

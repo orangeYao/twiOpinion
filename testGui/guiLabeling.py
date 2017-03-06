@@ -30,14 +30,14 @@ class App(tk.Frame):
 
         tk.Message(self, text= greeting(),
                    font='System 18 bold', justify='left', aspect=800).pack(pady=(5, 0))
-        tk.Message(self, text= "Step 1. Crawling",
+        tk.Message(self, text= "Step 2. Labeling",
                    font='System 14 bold', justify='left', aspect=800).pack(pady=(5, 0))
 
         ## frame 1
         f1 = tk.Frame(self)
         f1.pack(padx=60, pady=15, anchor='w')
 
-        self.f1l1 = tk.Label(f1, text='The tag or keyword you wish to grab from Twitter:')
+        self.f1l1 = tk.Label(f1, text='The keywords to label tweets as class 1:')
         self.f1l1.grid(row=0,column=0,columnspan=2,sticky='w')
         self.f1l1L = tk.Label(f1, text='Keyword:')
         self.f1l1L.grid(row=1, column=0, sticky='w')
@@ -46,7 +46,7 @@ class App(tk.Frame):
 
 
         tk.Label(f1, text='   ').grid(row=2, column=0, sticky='w')
-        self.f1l2 = tk.Label(f1, text='The folder you wish to store data (blank default as ./output):')
+        self.f1l2 = tk.Label(f1, text='The folder you stored data (blank default as ./output):')
         self.f1l2.grid(row=3,column=0,columnspan=2,sticky='w')
 
 
@@ -94,8 +94,11 @@ class App(tk.Frame):
         self.stb.bind("<Enter>", self.hover_on)
         self.stb.bind("<Leave>", self.hover_off)
 
-        self.stb2 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
-        self.stb2.pack(side='right', padx=10)
+        self.stb2 = tk.Button(fb, text='Manual', height=1, width=6, command=self.click_ok)
+        self.stb2.pack(side='right')
+
+        self.stb3 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
+        self.stb3.pack(side='right')
 
 
     def hover_1(self, event=None):
@@ -177,11 +180,10 @@ class App(tk.Frame):
         start_bt_ms = tmp 
         print "Check" 
 
-def crawling():
+def labeling():
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
 
-    os.environ['REQUESTS_CA_BUNDLE'] = "/Users/wuwenzhen/python/tweets/developSoftware/dustbin/py2app/venv/lib/python2.7/site-packages/pip/_vendor/requests/cacert.pem"
 
     root = tk.Tk()
     app = App(root)

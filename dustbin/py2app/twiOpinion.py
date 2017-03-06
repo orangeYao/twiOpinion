@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import Tkinter as tk
 import subprocess
 from versionControl import greeting
@@ -5,9 +6,8 @@ from versionControl import startingInfo
 from guiConfiguration import configuration 
 from guiCrawling import crawling
 from guiLearning import learning 
-import time
 
-start_bt_ms = "Welcome! Think about the function you want."
+start_bt_ms = "Welcome! Think about the function you want." 
 
 class App(tk.Frame):
     def __init__(self, master):
@@ -38,7 +38,7 @@ class App(tk.Frame):
 
         self.var = tk.IntVar()
 
-        tk.Label(f1_5, text= 'Select the function you want:'
+        tk.Label(f1_5, text= 'Select the function you want: ( •̀ .̫ •́ )✧'
                 ).grid(row=0,column=0,columnspan=9,sticky='w')
 
         tk.Label(f1_5, text= ' ').grid(row=1,column=0,columnspan=9,sticky='w')
@@ -108,3 +108,4 @@ if __name__ == '__main__':
     root = tk.Tk()
     app = App(root)
     app.mainloop()
+

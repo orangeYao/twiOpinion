@@ -2,7 +2,11 @@ import Tkinter as tk
 from versionControl import greeting
 import AppKit
 import subprocess
+import threading
+import time
 import twitter_stream_download
+import readJson
+import os
 
 start_bt_ms = "Welcome! Think about the keyword you want to know."
 
@@ -83,9 +87,6 @@ class App(tk.Frame):
 
 
         ## frame last 
-        self.changeButton = tk.BooleanVar()
-        self.changeButton.set(True)
-
         fb = tk.Frame(self)
         fb.pack(padx=60, pady=(0, 15), anchor='e')
         self.stb = tk.Button(fb, text='Start !', height=1, width=6, default='active', command=self.click_ok)
@@ -96,8 +97,9 @@ class App(tk.Frame):
         self.stb2 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
         self.stb2.pack(side='right', padx=10)
 
+
     def hover_1(self, event=None):
-        self.label.config(text="Fetch contents of tweets, stop current crawling process and quit")
+        self.label.config(text="Fetch contents, stop current crawling process and quit")
 
     def hover_2(self, event=None):
         self.label.config(text="Fetch meaningful contents of tweets for training in next step")
@@ -117,8 +119,6 @@ class App(tk.Frame):
         self.file_name = self.pass_input.get() + "/stream_" + self.user_input.get() + ".json"
         print self.file_name
 
-        twitter_stream_download.main(self.user_input.get(), self.pass_input.get())
-
         self.label.config(text="Crawling has started!")
         global start_bt_ms
         start_bt_ms = "Crawling has started!"
@@ -137,23 +137,41 @@ class App(tk.Frame):
         self.f1l2.config(state='disabled')
         self.f1l2L.config(state='disabled')
 
+        if not os.path.exists(self.pass_input.get()):
+            os.makedirs(self.pass_input.get())
+
+        self.running = True
+        newthread = threading.Thread(target=self.threadCrawl)
+        newthread.daemon = True
+        newthread.start()
+
+    def threadCrawl(self, event=None):
+        print "thread!" 
+        twitter_stream_download.main(self.user_input.get(), self.pass_input.get())
 
     def click_cancel(self, event=None):
         print("The user clicked 'Cancel'")
         self.master.destroy()
 
     def click_1(self, event=None):
+
         print "Stop" 
+        readJson.main(self.file_name)
+        self.master.destroy()
 
     def click_2(self, event=None):
+        lines = readJson.main(self.file_name)
+        tmp = "Fetch: " + str(lines) + " lines of contents are fetched" 
+        self.label.config(text=tmp)
         print "Fetch"
 
     def click_3(self, event=None):
-        self.file_name = "../output/stream_China.json" 
-        proc = subprocess.Popen(["wc", "-l", self.file_name], stdout=subprocess.PIPE)
-        lines = proc.stdout.read()
 
-        tmp = "Check: " + lines.split()[0] + " tweets have been crawled"
+        if os.path.isfile(self.file_name):
+            lines = sum(1 for line in open(self.file_name))
+        else:
+            lines = 0
+        tmp = "Check: " + str(lines) + " tweets have been crawled"
         self.label.config(text=tmp)
         global start_bt_ms
         start_bt_ms = tmp 
@@ -162,6 +180,10 @@ class App(tk.Frame):
 def crawling():
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
+
+    fixbug = "/Users/wuwenzhen/python/tweets/developSoftware/dustbin/py2app/venv/lib/python2.7/site-packages/pip/_vendor/requests/cacert.pem"
+    if os.path.isfile(fixbug):
+        os.environ['REQUESTS_CA_BUNDLE'] = fixbug 
 
     root = tk.Tk()
     app = App(root)

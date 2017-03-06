@@ -1,0 +1,1 @@
+export REQUESTS_CA_BUNDLE=~/python/tweets/developSoftware/dustbin/py2app/venv/lib/python2.7/site-packages/pip/_vendor/requests/cacert.pem

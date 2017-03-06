@@ -5,6 +5,7 @@ from versionControl import greeting
 from versionControl import startingInfo 
 from guiConfiguration import configuration 
 from guiCrawling import crawling
+from guiLabeling import labeling
 from guiLearning import learning 
 
 start_bt_ms = "Welcome! Think about the function you want." 
@@ -96,6 +97,8 @@ class App(tk.Frame):
             configuration() 
         elif self.var.get() == 2:
             crawling()
+        elif self.var.get() == 3:
+            labeling()
         elif self.var.get() == 4:
             learning()
 
