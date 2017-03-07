@@ -7,7 +7,6 @@ from nltk import PorterStemmer
 from nltk import FreqDist
 from nltk.corpus import stopwords
 stop = stopwords.words('english')
-#from guess_language import guess_language #in combo
 from guess_language import guessLanguage  #in local
 
 from optparse import OptionParser
@@ -44,7 +43,6 @@ def filter(text):
 
 
 def main(fileNameIn):
-
     count = 0;
     f = open(fileNameIn[0:-4] + "txt", 'w')
     for line in open(fileNameIn, 'r'):

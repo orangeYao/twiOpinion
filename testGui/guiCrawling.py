@@ -46,7 +46,7 @@ class App(tk.Frame):
 
 
         tk.Label(f1, text='   ').grid(row=2, column=0, sticky='w')
-        self.f1l2 = tk.Label(f1, text='The folder you wish to store data (blank default as ./output):')
+        self.f1l2 = tk.Label(f1, text='The folder you wish to store data (default as ./output):')
         self.f1l2.grid(row=3,column=0,columnspan=2,sticky='w')
 
 
