@@ -140,7 +140,6 @@ class App(tk.Frame):
         if not os.path.exists(self.pass_input.get()):
             os.makedirs(self.pass_input.get())
 
-        self.running = True
         newthread = threading.Thread(target=self.threadCrawl)
         newthread.daemon = True
         newthread.start()
@@ -154,7 +153,6 @@ class App(tk.Frame):
         self.master.destroy()
 
     def click_1(self, event=None):
-
         print "Stop" 
         readJson.main(self.file_name)
         self.master.destroy()
@@ -166,7 +164,6 @@ class App(tk.Frame):
         print "Fetch"
 
     def click_3(self, event=None):
-
         if os.path.isfile(self.file_name):
             lines = sum(1 for line in open(self.file_name))
         else:
