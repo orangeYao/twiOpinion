@@ -33,12 +33,14 @@ def learnfunction(path, pathTweet, numberUsedAll, numberUnlabeled, algorithm):
         trainingList = wordList[:numberForTraining]
         testList = wordList[numberForTraining:]
 
-        if algorithm == 3:
-            accur, suppor, not_suppor = sklearnClassify.bayes(filtered, input_score, numberForTraining, 'BernoulliNB', f_tweets)
+        if algorithm == 4:
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 'decisionTree', f_tweets)
+        elif algorithm == 3:
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 'BernoulliNB', f_tweets)
         elif algorithm == 2:
-            accur, suppor, not_suppor = sklearnClassify.bayes(filtered, input_score, numberForTraining, 'MultinomialNB', f_tweets)
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 'MultinomialNB', f_tweets)
         elif algorithm == 1:
-            accur, suppor, not_suppor = sklearnClassify.svm(filtered, input_score, numberForTraining, f_tweets)
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining,"svm", f_tweets)
 
         accuracy.append(accur)
         support.append(suppor)

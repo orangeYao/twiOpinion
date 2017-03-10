@@ -76,12 +76,14 @@ class App(tk.Frame):
         f1_5.pack(padx=60, pady=(5,10), anchor='w')
         tk.Label(f1_5, text= 'Select a machine learning algorithm:'
                 ).grid(row=0,column=0,columnspan=9,sticky='w')
-        tk.Radiobutton(f1_5, text="Support Vector Machine", value=1, command = self.r1,
+        tk.Radiobutton(f1_5, text="SVM", value=1, command = self.r1,
               indicatoron=0).grid(row=1, column=0)
-        tk.Radiobutton(f1_5, text="Naive Bayes",value=2, command = self.r2,
+        tk.Radiobutton(f1_5, text="MultinomialNB",value=2, command = self.r2,
               indicatoron=0).grid(row=1, column=1)
-        tk.Radiobutton(f1_5, text="Decision Tree",value=3, command = self.r3,
+        tk.Radiobutton(f1_5, text="BernoulliNB",value=3, command = self.r3,
               indicatoron=0).grid(row=1, column=2)
+        tk.Radiobutton(f1_5, text="Decision Tree",value=4, command = self.r3,
+              indicatoron=0).grid(row=1, column=3)
 
         ##frame 2
         f2 = tk.Frame(self)
@@ -107,15 +109,15 @@ class App(tk.Frame):
 
     def r1(self, event=None):
         self.radio_var.set(1)
-        print self.radio_var.get()
 
     def r2(self, event=None):
         self.radio_var.set(2)
-        print self.radio_var.get()
 
     def r3(self, event=None):
         self.radio_var.set(3)
-        print self.radio_var.get()
+
+    def r4(self, event=None):
+        self.radio_var.set(4)
 
     def hover_on(self, event=None):
         self.label1.config(text="Click to start learning, may take a while (^0^)/")

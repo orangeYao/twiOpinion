@@ -187,24 +187,28 @@ class App(tk.Frame):
         self.master.destroy()
 
     def click_1(self, event=None):
-        self.next_twi()
-        self.class1.append(self.display)
-        self.disp_twi()
+        if self.next_twi() == 1:
+            self.class1.append(self.display)
+            self.disp_twi()
 
     def click_2(self, event=None):
-        self.next_twi()
-        self.class2.append(self.display)
-        self.disp_twi()
+        if self.next_twi() == 1:
+            self.class2.append(self.display)
+            self.disp_twi()
 
     def click_3(self, event=None):
-        self.next_twi()
-        self.disp_twi()
+        if self.next_twi() == 1:
+            self.disp_twi()
 
     def next_twi(self, event=None):
         global count
         count += 1
+        if count >= len(self.tweets):
+            self.label.config(text="Maximum number of tweets reached!")
+            return 0
         self.display = self.tweets[count].strip() #\n at end of self.display
         self.dis.config(text="\nTweet No."+str(count)+": "+self.display+"\n")  
+        return 1
 
     def disp_twi(self, event=None):
         self.label.config(text=str(len(self.class1))+" tweets in class1 / "+str(len(self.class2))+" tweets in class2.")

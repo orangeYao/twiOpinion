@@ -3,9 +3,12 @@ import twitter
 import time
 import json
 import csv
+import sys
+reload(sys)
 
+sys.setdefaultencoding('utf-8')
 csv_has_head = False 
-wanted_keys = ['created_at', 'statuses_count', 'location', 'followers_count', 'friends_count', 'lang', 'screen_name'] 
+wanted_keys = ['statuses_count', 'followers_count', 'friends_count', 'screen_name', 'created_at', 'location', 'lang'] 
 
 def readList(fileName):
     with open (fileName, 'r') as readfile:
@@ -15,19 +18,29 @@ def readList(fileName):
     return lineList
 
 def writeJson(query_dict, fileName):
-    with open(fileName, 'a') as outfile:
-        json.dump(query_dict, outfile)
-        outfile.write('\n')
-
-def writeCsv(query_dict, fileName):
-    #with open(fileName, 'a') as outfile:
     global csv_has_head
-    outfile = csv.writer(open(fileName, 'a'))
     if not csv_has_head:
+        outfile = csv.writer(open(fileName, 'w'))
         outfile.writerow(wanted_keys)
         csv_has_head = True
-    outfile.writerow([query_dict[x] for x in wanted_keys])
+        with open(fileName, 'w') as outfile:
+            json.dump(query_dict, outfile)
+            outfile.write('\n')
+    else:
+        with open(fileName, 'a') as outfile:
+            json.dump(query_dict, outfile)
+            outfile.write('\n')
 
+
+def writeCsv(query_dict, fileName):
+    global csv_has_head
+    if not csv_has_head:
+        outfile = csv.writer(open(fileName, 'w'))
+        outfile.writerow(wanted_keys)
+        csv_has_head = True
+    else:
+        outfile = csv.writer(open(fileName, 'a'))
+    outfile.writerow([str(query_dict[x]) for x in wanted_keys])
 
     
 def followerInfo(usernamePath, outFormat):
@@ -48,7 +61,7 @@ def followerInfo(usernamePath, outFormat):
             if outFormat == ".json":
                 writeJson(user, usernamePath[0:-4] + outFormat)
             elif outFormat == ".csv":
-                writecsv(user, usernamePath[0:-4] + outFormat)
+                writeCsv(user, usernamePath[0:-4] + outFormat)
             else:
                 print "Error: wrong data type!"
         print user

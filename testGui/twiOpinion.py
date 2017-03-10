@@ -8,8 +8,9 @@ from guiCrawling import crawling
 from guiLabeling import labeling
 from guiLearning import learning 
 from guiInfo import info
+import os
 
-start_bt_ms = "Welcome! Think about the function you want." 
+start_bt_ms = "Welcome! Contact zhiyao: xiezhiyaoa@gmail.com" 
 
 class App(tk.Frame):
     def __init__(self, master):
@@ -36,14 +37,14 @@ class App(tk.Frame):
 
         ## frame last 
         f1_5 = tk.Frame(self)
-        f1_5.pack(padx=60, pady=10, anchor='w')
+        f1_5.pack(padx=60, pady=(5,0), anchor='w')
 
         self.var = tk.IntVar()
 
         tk.Label(f1_5, text= 'Select the function you want: ( •̀ .̫ •́ )✧'
                 ).grid(row=0,column=0,columnspan=9,sticky='w')
 
-        tk.Label(f1_5, text= ' ').grid(row=1,column=0,columnspan=9,sticky='w')
+        tk.Label(f1_5, font=("Courier", 8), text= ' ').grid(row=1,column=0,columnspan=9,sticky='w')
 
         R1 = tk.Radiobutton(f1_5, text="Step 0. Twitter Accessing Setting", variable=self.var, value=1
               ).grid(row=2, column=0,sticky='w')
@@ -51,15 +52,25 @@ class App(tk.Frame):
               ).grid(row=3, column=0,sticky='w')
         R3 = tk.Radiobutton(f1_5, text="Step 2. Labeling Tweets", variable=self.var, value=3
               ).grid(row=4, column=0,sticky='w')
-        R4 = tk.Radiobutton(f1_5, text="Step 3. Machine Learning", variable=self.var, value=4
+        R4 = tk.Radiobutton(f1_5, text="Step 3. Learning and Classifying", variable=self.var, value=4
               ).grid(row=5, column=0,sticky='w')
         R5 = tk.Radiobutton(f1_5, text="Step 4. Twitter User Information", variable=self.var, value=5
               ).grid(row=6, column=0,sticky='w')
 
-        tk.Label(f1_5, text= ' ').grid(row=7,column=0,columnspan=9,sticky='w')
+        tk.Label(f1_5, font=("Courier", 1), text= ' ').grid(row=7,column=0,columnspan=9,sticky='w')
+
+        #### get folder
+        f1_7 = tk.Frame(self)
+        f1_7.pack(padx=25, anchor='w')
+        self.path_check = tk.Message(f1_7, text= "  ", justify='left', width = 380)
+        self.path_check.grid(row=0, column=0,columnspan=9,sticky='w')
+
+        #### blue label
+        f2 = tk.Frame(self)
+        f2.pack(padx=60, anchor='w')
         self.programOutput = tk.StringVar()
-        tk.Label(f1_5, anchor="w",fg="white",bg="blue", textvariable=self.programOutput, 
-                width=35).grid(row=8, column=0,sticky='w')
+        tk.Label(f2, anchor="w",fg="white",bg="blue", textvariable=self.programOutput, 
+                width=36).grid(row=1, column=0,sticky='w')
         self.programOutput.set(start_bt_ms)        
 
 
@@ -70,26 +81,41 @@ class App(tk.Frame):
         self.stb.bind("<Enter>", self.hover_on)
         self.stb.bind("<Leave>", self.hover_off)
 
+        self.stb1_5 = tk.Button(fb, text='Path', height=1, width=6, command=self.click_path)
+        self.stb1_5.pack(side='right', padx=10)
+        self.stb1_5.bind('<Enter>', self.hover_on1)
+        self.stb1_5.bind('<Leave>', self.hover_off)
+
         self.stb2 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
-        self.stb2.pack(side='right', padx=10)
+        self.stb2.pack(side='right')
+
 
     def value1(self, event=None):
         subprocess.Popen(["python", "guiGrabing.py"])
 
     def hover_on(self, event=None):
         if self.var.get() == 0:
-            self.programOutput.set("Select the function you want.")
+            self.programOutput.set("Select the function you want")
         elif self.var.get() == 1:
-            self.programOutput.set("Step 0")
+            self.programOutput.set("Generate Twitter configuration file by access keys")
         elif self.var.get() == 2:
-            self.programOutput.set("Step 1")
+            self.programOutput.set("Crawl real-time tweets by given key words")
         elif self.var.get() == 3:
-            self.programOutput.set("Step 2")
+            self.programOutput.set("Label crawled tweets into two distinct classes")
         elif self.var.get() == 4:
-            self.programOutput.set("Step 3")
+            self.programOutput.set("Classify by given machine learning algorithm")
+        elif self.var.get() == 5:
+            self.programOutput.set("Learn about followers/friends of an account")
+
+    def hover_on1(self, event=None):
+        self.programOutput.set("Click to check current working directory")
 
     def hover_off(self, event=None):
         self.programOutput.set(start_bt_ms)
+
+    def click_path(self, event=None):
+        self.path_check.config(text= "        Current working directory is:\n\n" + os.getcwd() +"\n")
+        self.update()  # update! otherwise error occurs if text too long 
 
     def click_ok(self, event=None):
         self.programOutput.set("Function started.")

@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 import Tkinter as tk
 from versionControl import greeting
 import AppKit
-
 
 website = "(https://apps.twitter.com)"
 start_bt_ms = "Welcome! Paste your keys above. " + website 
@@ -33,7 +33,7 @@ class App(tk.Frame):
         f1 = tk.Frame(self)
         f1.pack(padx=60, pady=15, anchor='w')
 
-        tk.Label(f1, text='Your consumer key and secret:' 
+        tk.Label(f1, text='Your consumer key and secret: (｡・`ω´･)' 
                         ).grid(row=0,column=0,columnspan=2,sticky='w')
         tk.Label(f1, text='Consumer key:').grid(row=1, column=0, sticky='w')
         self.l1 = tk.Entry(f1, background='white', width=30)

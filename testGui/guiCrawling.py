@@ -149,7 +149,7 @@ class App(tk.Frame):
         twitter_stream_download.main(self.user_input.get(), self.pass_input.get())
 
     def click_cancel(self, event=None):
-        print("The user clicked 'Cancel'")
+        print "The user clicked 'Cancel'"
         self.master.destroy()
 
     def click_1(self, event=None):
