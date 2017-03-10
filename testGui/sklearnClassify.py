@@ -7,8 +7,9 @@ from sklearn.linear_model import SGDClassifier #svm
 from sklearn.tree import DecisionTreeClassifier
 import random
 import numpy as np
+from functions import simpleWriteList 
 
-def learn(data, score, numberForTraining, c_type, f_tweets):
+def learn(data, score, numberForTraining, c_type, f_tweets, writeOut, tweets, path):
     print "naive bayes in sklearn:"
     c = list(zip(data, score))
     random.shuffle(c)
@@ -52,24 +53,21 @@ def learn(data, score, numberForTraining, c_type, f_tweets):
     accur = np.mean(predicted == test_list_target)    
 
     print "to predict:"
-    application(text_clf, f_tweets)
-    support, not_support = application(text_clf, f_tweets)
-    print ''
-    print "in test set:"
-    application(text_clf, test_list_data)
-
+    support, not_support = application(text_clf, f_tweets, writeOut,tweets, path)
     print "computing accurancy: " + str(accur)
     return accur, support, not_support
 
 
-def application(text_clf,f_tweets):
+def application(text_clf, f_tweets, writeOut, tweets, path):
     predicted = text_clf.predict(f_tweets)
-    #np.savetxt("foo2.csv", predicted, delimiter="\n", fmt="%s")
+    if writeOut:
+        simpleWriteList ([i for i,j in zip(tweets, predicted) if j == '1'], path+ "newlabeledPositive.txt")
+        simpleWriteList ([i for i,j in zip(tweets, predicted) if j == '-1'], path+ "newlabeledNegative.txt")
+
     support = sum(predicted == '1')
     not_support = sum(predicted == '-1')
     print "supporting: " + str(support)
     print "not supporting: " + str(not_support)
-    print "unlabeled: " + str(sum(predicted == '*1'))
     return support, not_support 
 
 

@@ -137,5 +137,11 @@ def writeList(listname, filename):
         count += 1
     return count
 
+def simpleWriteList(listname, filename):
+    f = open(filename, "w")
+    for line in listname:
+        f.write(line)
+
+
 
 

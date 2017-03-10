@@ -82,7 +82,7 @@ class App(tk.Frame):
               indicatoron=0).grid(row=1, column=1)
         tk.Radiobutton(f1_5, text="BernoulliNB",value=3, command = self.r3,
               indicatoron=0).grid(row=1, column=2)
-        tk.Radiobutton(f1_5, text="Decision Tree",value=4, command = self.r3,
+        tk.Radiobutton(f1_5, text="Decision Tree",value=4, command = self.r4,
               indicatoron=0).grid(row=1, column=3)
 
         ##frame 2
@@ -120,7 +120,17 @@ class App(tk.Frame):
         self.radio_var.set(4)
 
     def hover_on(self, event=None):
-        self.label1.config(text="Click to start learning, may take a while (^0^)/")
+        if self.radio_var.get() == 1:
+            self.label1.config(text="Support Vector Machine, may take a while (^0^)/")
+        elif self.radio_var.get() == 2:
+            self.label1.config(text="Naive Bayes classifier multinomial models, may take a while (^0^)/")
+        elif self.radio_var.get() == 3:
+            self.label1.config(text="Naive Bayes classifier Bernoulli models, may take a while (^0^)/")
+        elif self.radio_var.get() == 4:
+            self.label1.config(text="Decision tree, may take a while (^0^)/")
+        elif self.radio_var.get() == 0:
+            self.label1.config(text="Select a machine learning algorithm before starting")
+
 
     def hover_off(self, event=None):
         self.label1.config(text=start_bt_ms) 
@@ -129,7 +139,7 @@ class App(tk.Frame):
         global learn_flag
         global start_bt_ms
         learn_flag = False
-        if self.radio_var.get()!=1 and self.radio_var.get()!=2 and self.radio_var.get()!=3:
+        if self.radio_var.get()<1 or self.radio_var.get()>4: 
             self.label1.config(text="Error: select algorithm you want~")
             return 0
 

@@ -89,6 +89,8 @@ class App(tk.Frame):
         self.stb2 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
         self.stb2.pack(side='right')
 
+        self.pathDisplayed = False
+
 
     def value1(self, event=None):
         subprocess.Popen(["python", "guiGrabing.py"])
@@ -108,14 +110,25 @@ class App(tk.Frame):
             self.programOutput.set("Learn about followers/friends of an account")
 
     def hover_on1(self, event=None):
-        self.programOutput.set("Click to check current working directory")
+        if self.pathDisplayed:
+            self.programOutput.set("Click to pack up currently displayed path")
+        else:
+            self.programOutput.set("Click to check current working directory")
 
     def hover_off(self, event=None):
         self.programOutput.set(start_bt_ms)
 
     def click_path(self, event=None):
-        self.path_check.config(text= "        Current working directory is:\n\n" + os.getcwd() +"\n")
+        self.pathDisplayed = True
+        self.path_check.config(text= "        Current working directory is:  ⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄\n\n" + os.getcwd() +"\n")
         self.update()  # update! otherwise error occurs if text too long 
+        self.stb1_5.config(text="PackUp", command = self.click_pack)
+
+    def click_pack(self, event=None):
+        self.pathDisplayed = False 
+        self.path_check.config(text= " ")
+        self.stb1_5.config(text="Path", command = self.click_path)
+
 
     def click_ok(self, event=None):
         self.programOutput.set("Function started.")

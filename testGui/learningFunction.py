@@ -26,21 +26,38 @@ def learnfunction(path, pathTweet, numberUsedAll, numberUnlabeled, algorithm):
     accuracy = []
     support = []
     not_support = []
-    for i in range(1,5):
+    const_repeat = 5
+    for i in range(1,const_repeat):
         print i
         random.shuffle(wordList)
         wordList = wordList[0:numberUsedAll]
         trainingList = wordList[:numberForTraining]
         testList = wordList[numberForTraining:]
 
+    
+        writeOut = False
         if algorithm == 4:
-            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 'decisionTree', f_tweets)
+            if i == const_repeat-1:
+                writeOut = True
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 
+                                    'decisionTree', f_tweets, writeOut, tweets[0:numberUnlabeled], path)
         elif algorithm == 3:
-            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 'BernoulliNB', f_tweets)
+            if i == const_repeat-1:
+                writeOut = True
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 
+                                    'BernoulliNB', f_tweets, writeOut, tweets[0:numberUnlabeled], path)
+
         elif algorithm == 2:
-            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 'MultinomialNB', f_tweets)
+            if i == const_repeat-1:
+                writeOut = True
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining, 
+                                    'MultinomialNB', f_tweets, writeOut, tweets[0:numberUnlabeled], path)
+
         elif algorithm == 1:
-            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining,"svm", f_tweets)
+            if i == const_repeat-1:
+                writeOut = True
+            accur, suppor, not_suppor = sklearnClassify.learn(filtered, input_score, numberForTraining,
+                                    "svm", f_tweets, writeOut, tweets[0:numberUnlabeled], path)
 
         accuracy.append(accur)
         support.append(suppor)
