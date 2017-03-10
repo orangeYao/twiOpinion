@@ -5,7 +5,9 @@ from versionControl import greeting
 from versionControl import startingInfo 
 from guiConfiguration import configuration 
 from guiCrawling import crawling
+from guiLabeling import labeling
 from guiLearning import learning 
+from guiInfo import info
 
 start_bt_ms = "Welcome! Think about the function you want." 
 
@@ -51,11 +53,13 @@ class App(tk.Frame):
               ).grid(row=4, column=0,sticky='w')
         R4 = tk.Radiobutton(f1_5, text="Step 3. Machine Learning", variable=self.var, value=4
               ).grid(row=5, column=0,sticky='w')
+        R5 = tk.Radiobutton(f1_5, text="Step 4. Twitter User Information", variable=self.var, value=5
+              ).grid(row=6, column=0,sticky='w')
 
-        tk.Label(f1_5, text= ' ').grid(row=6,column=0,columnspan=9,sticky='w')
+        tk.Label(f1_5, text= ' ').grid(row=7,column=0,columnspan=9,sticky='w')
         self.programOutput = tk.StringVar()
         tk.Label(f1_5, anchor="w",fg="white",bg="blue", textvariable=self.programOutput, 
-                width=35).grid(row=7, column=0,sticky='w')
+                width=35).grid(row=8, column=0,sticky='w')
         self.programOutput.set(start_bt_ms)        
 
 
@@ -96,8 +100,12 @@ class App(tk.Frame):
             configuration() 
         elif self.var.get() == 2:
             crawling()
+        elif self.var.get() == 3:
+            labeling()
         elif self.var.get() == 4:
             learning()
+        elif self.var.get() == 5:
+            info()
 
 
     def click_cancel(self, event=None):

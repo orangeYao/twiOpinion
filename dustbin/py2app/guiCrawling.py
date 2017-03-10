@@ -46,7 +46,7 @@ class App(tk.Frame):
 
 
         tk.Label(f1, text='   ').grid(row=2, column=0, sticky='w')
-        self.f1l2 = tk.Label(f1, text='The folder you wish to store data (blank default as ./output):')
+        self.f1l2 = tk.Label(f1, text='The folder you wish to store data (default as ./output):')
         self.f1l2.grid(row=3,column=0,columnspan=2,sticky='w')
 
 
@@ -140,7 +140,6 @@ class App(tk.Frame):
         if not os.path.exists(self.pass_input.get()):
             os.makedirs(self.pass_input.get())
 
-        self.running = True
         newthread = threading.Thread(target=self.threadCrawl)
         newthread.daemon = True
         newthread.start()
@@ -154,7 +153,6 @@ class App(tk.Frame):
         self.master.destroy()
 
     def click_1(self, event=None):
-
         print "Stop" 
         readJson.main(self.file_name)
         self.master.destroy()
@@ -166,7 +164,6 @@ class App(tk.Frame):
         print "Fetch"
 
     def click_3(self, event=None):
-
         if os.path.isfile(self.file_name):
             lines = sum(1 for line in open(self.file_name))
         else:
@@ -181,7 +178,9 @@ def crawling():
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
 
-    os.environ['REQUESTS_CA_BUNDLE'] = "/Users/wuwenzhen/python/tweets/developSoftware/dustbin/py2app/venv/lib/python2.7/site-packages/pip/_vendor/requests/cacert.pem"
+    fixbug = "/Users/wuwenzhen/python/tweets/developSoftware/dustbin/py2app/venv/lib/python2.7/site-packages/pip/_vendor/requests/cacert.pem"
+    if os.path.isfile(fixbug):
+        os.environ['REQUESTS_CA_BUNDLE'] = fixbug 
 
     root = tk.Tk()
     app = App(root)

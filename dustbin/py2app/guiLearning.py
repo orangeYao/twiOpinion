@@ -1,13 +1,16 @@
 import Tkinter as tk
 from versionControl import greeting
 import AppKit
+from learningFunction import learnfunction
+import os
 
 start_bt_ms = "Welcome! Now you can start machine learning!" 
 next_bt_ms = "Result will be displayed here"
-radio_var = 0
+learn_flag = False
 
 class App(tk.Frame):
     def __init__(self, master):
+
         tk.Frame.__init__(self, master)
         self.pack()
         self.master.title("")
@@ -32,42 +35,57 @@ class App(tk.Frame):
 
         ## frame 1
         f1 = tk.Frame(self)
-        f1.pack(padx=60, pady=15, anchor='w')
+        f1.pack(padx=60, pady=10, anchor='w')
 
-        tk.Label(f1, text= 'The folder you wish to store data (blank default as ./output):' 
+        tk.Label(f1, text= 'The folder you stored labeled data (blank default as ./output):' 
                         ).grid(row=0,column=0,columnspan=9,sticky='w')
         tk.Label(f1, text='Path:').grid(row=1, column=0, sticky='w')
         self.user_input = tk.Entry(f1, background='white', width=30)
+        self.user_input.insert(0,"./output")
         self.user_input.grid(row=1, column=1,columnspan=4, sticky='w')
 
+        
         tk.Label(f1, text='   ').grid(row=2, column=0, sticky='w')
-        tk.Label(f1, text='Number of training and testing cases to select:'
-                        ).grid(row=3,column=0,columnspan=5,sticky='w')
+        tk.Label(f1, text= 'The file containing unlabeled tweets you hope to learn:' 
+                        ).grid(row=3,column=0,columnspan=9,sticky='w')
+        tk.Label(f1, text='File:').grid(row=4, column=0, sticky='w')
+        self.pass_input = tk.Entry(f1, background='white', width=30)
+        self.pass_input.insert(0,"./output/unknown.txt")
+        self.pass_input.grid(row=4, column=1,columnspan=4, sticky='w')
 
-        tk.Label(f1, text='Train:').grid(row=4, column=0, sticky='w')
-        self.pass_input = tk.Entry(f1, background='white', width=10)
-        self.pass_input.grid(row=4, column=1, sticky='w')
-        tk.Label(f1, text='Test:').grid(row=4, column=2, sticky='w')
-        self.pass_input = tk.Entry(f1, background='white', width=10)
-        self.pass_input.grid(row=4, column=3, sticky='w')
+
+        tk.Label(f1, text='   ').grid(row=5, column=0, sticky='w')
+        tk.Label(f1, text='Number of labeled and unlabeled tweets (blank default as maximum):'
+                        ).grid(row=6,column=0,columnspan=5,sticky='w')
+
+        tk.Label(f1, text='Labeled:').grid(row=7, column=0, sticky='w')
+        self.pass_inputL = tk.Entry(f1, background='white', width=10)
+        self.pass_inputL.insert(0,"6000")
+        self.pass_inputL.grid(row=7, column=1, sticky='w')
+        tk.Label(f1, text='Unlabeled:').grid(row=7, column=2, sticky='w')
+        self.pass_inputR = tk.Entry(f1, background='white', width=10)
+        self.pass_inputR.insert(0,"5000")
+        self.pass_inputR.grid(row=7, column=3, sticky='w')
 
         #buttons at bottom
+
+        self.radio_var = tk.IntVar()
+        print self.radio_var.get()
+
         f1_5 = tk.Frame(self)
-        f1_5.pack(padx=60, pady=10, anchor='w')
+        f1_5.pack(padx=60, pady=(5,10), anchor='w')
         tk.Label(f1_5, text= 'Select a machine learning algorithm:'
                 ).grid(row=0,column=0,columnspan=9,sticky='w')
         tk.Radiobutton(f1_5, text="Support Vector Machine", value=1, command = self.r1,
-              ).grid(row=1, column=0)
+              indicatoron=0).grid(row=1, column=0)
         tk.Radiobutton(f1_5, text="Naive Bayes",value=2, command = self.r2,
-              ).grid(row=1, column=1)
+              indicatoron=0).grid(row=1, column=1)
         tk.Radiobutton(f1_5, text="Decision Tree",value=3, command = self.r3,
-              ).grid(row=1, column=2)
-
-
+              indicatoron=0).grid(row=1, column=2)
 
         ##frame 2
         f2 = tk.Frame(self)
-        f2.pack(padx=60, pady=30, anchor='w')
+        f2.pack(padx=60, pady=(10,10), anchor='w')
 
         self.label1 = tk.Label(f2, anchor="w",fg="white",bg="blue", text=start_bt_ms, width=45)
         self.label1.pack()
@@ -81,42 +99,90 @@ class App(tk.Frame):
         self.stb.bind("<Enter>", self.hover_on)
         self.stb.bind("<Leave>", self.hover_off)
 
-        self.stb2 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
-        self.stb2.pack(side='right', padx=10)
+        self.stb2 = tk.Button(fb, text='FileInfo', height=1, width=6, command=self.click_info)
+        self.stb2.pack(side='right', padx=5)
+        self.stb3 = tk.Button(fb, text='Quit...', height=1, width=6, command=self.click_cancel)
+        self.stb3.pack(side='right')
 
 
     def r1(self, event=None):
-        radio_var = "R1"
-        print radio_var
+        self.radio_var.set(1)
+        print self.radio_var.get()
 
     def r2(self, event=None):
-        radio_var = "R2"
-        print radio_var
+        self.radio_var.set(2)
+        print self.radio_var.get()
 
     def r3(self, event=None):
-        radio_var = "R3"
-        print radio_var
+        self.radio_var.set(3)
+        print self.radio_var.get()
 
     def hover_on(self, event=None):
-        self.label1.config(text="click to start grabing")
+        self.label1.config(text="Click to start learning, may take a while (^0^)/")
 
     def hover_off(self, event=None):
         self.label1.config(text=start_bt_ms) 
 
-
     def click_ok(self, event=None):
-        self.label1.config(text="Grabing has started!")
+        global learn_flag
         global start_bt_ms
-        start_bt_ms ="Grabing has started!" 
-        print radio_var
+        learn_flag = False
+        if self.radio_var.get()!=1 and self.radio_var.get()!=2 and self.radio_var.get()!=3:
+            self.label1.config(text="Error: select algorithm you want~")
+            return 0
+
+        if not learn_flag: 
+            self.click_info()
+            print "not learn_flag is: " + str(learn_flag)
+        if learn_flag:
+            print "learn_flag is: " + str(learn_flag)
+            accur, sup, not_sup = learnfunction (self.user_input.get()+"/", self.pass_input.get(),
+                    int(self.pass_inputL.get()), int(self.pass_inputR.get()), self.radio_var.get())
+
+            global next_bt_ms
+            start_bt_ms = "The accuracy of classifier: "+accur
+            next_bt_ms = "Class 1 number: "+sup+", class 2 number: "+not_sup
+            self.label1.config(text=start_bt_ms)
+            self.label2.config(text=next_bt_ms)
+
+    def click_info(self, event=None):
+        file1 = self.user_input.get()+"/positive.txt"
+        file2 = self.user_input.get()+"/negative.txt"
+        global start_bt_ms
+        if os.path.isfile(file1) and os.path.isfile(file2) and os.path.isfile(self.pass_input.get()):
+            info = "Indicated labeled file exist, " 
+            line_num = min(sum(1 for line in open(file1)), sum(1 for line in open(file2)))
+            info += "maximum line num is: " + str(line_num)
+            start_bt_ms = info
+            self.label1.config(text=info)
+
+            info2 = "Indicated unlabeled file exist, "
+            line_num2 = sum(1 for line in open(self.pass_input.get()))
+            info2 += "line num is: " + str(line_num2)
+            self.label2.config(text=info2)
+            global learn_flag
+            learn_flag = True
+
+        elif not os.path.isfile(file1): 
+            start_bt_ms = "Error: Labeled file 'positive.txt' doesn't exist in the path~"
+            self.label1.config(text=start_bt_ms)
+            self.label2.config(text=next_bt_ms)
+        elif not os.path.isfile(file2):
+            start_bt_ms = "Error: Labeled file 'negative.txt' doesn't exist in the path~"
+            self.label1.config(text=start_bt_ms)
+            self.label2.config(text=next_bt_ms)
+        else:
+            start_bt_ms = "Error: Indicated unlabeled file doesn't exist~"
+            self.label1.config(text=start_bt_ms)
+            self.label2.config(text=next_bt_ms)
+
 
     def click_cancel(self, event=None):
-        print("The user clicked 'Cancel'")
+        print "The user clicked 'Cancel'"
         self.master.destroy()
 
 
 def learning():
-#if __name__ == '__main__':
     info = AppKit.NSBundle.mainBundle().infoDictionary()
     info['LSUIElement'] = True
     root = tk.Tk()

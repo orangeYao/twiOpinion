@@ -63,9 +63,6 @@ class App(tk.Frame):
         self.label.pack()
 
         ## frame last 
-        self.changeButton = tk.BooleanVar()
-        self.changeButton.set(True)
-
         fb = tk.Frame(self)
         fb.pack(padx=60, pady=(0, 15), anchor='e')
         self.stb = tk.Button(fb, text='Start !', height=1, width=6, default='active', command=self.click_ok)

@@ -8,10 +8,12 @@ Usage:
 from setuptools import setup
 
 APP = ['twiOpinion.py']
-DATA_FILES = ['guiConfiguration.py','guiCrawling.py','guiLearning.py',
-                'config.py','readJson.py','versionControl.py']
+DATA_FILES = ['guiConfiguration.py','guiCrawling.py','guiLearning.py','guiInfo.py',
+                'config.py','readJson.py','versionControl.py', 'learningFunction.py', 'sklearnClassify.py',
+                'infoFindEdge.py', 'infoTwitterGet.py']
 
-OPTIONS = {'argv_emulation': True, 'iconfile': 'Spider.icns', 'packages' : ['tweepy', 'guess_language', 'nltk']}
+OPTIONS = {'argv_emulation': True, 'iconfile': 'Spider.icns', 
+            'packages' : ['tweepy', 'guess_language', 'nltk','pandas','sklearn', 'twitter']}
 #OPTIONS = {'argv_emulation': True, 'iconfile': 'Spider.icns'}
 
 setup(
