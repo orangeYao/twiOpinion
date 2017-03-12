@@ -21,7 +21,7 @@ Helpful information will be displayed on the blue label at the bottom of each fr
 Select the function you like to use by selecting radiobuttons and click **Start!**.  
 Check your current working directory by clicking **Path**.   
 For Mac users: the working directory will usually be in subfolder of /Applications. To access it by 'Finder', right click /Applications/twiOpinion and click *'Show Package Contents'*   
-![FunctionMain](graphs/FunctionMain.png=500x)
+![FunctionMain](graphs/FunctionMain.png =500x)
 
 ### Function 0.  Twitter Accessing Setting
 Generate the configuration file necessary for crawling Twitter: 
@@ -30,7 +30,7 @@ Generate the configuration file necessary for crawling Twitter:
 * 0.2. Enter your application name, description and your website address.  
 * 0.3. Submit the form by clicking the *'Create your Twitter Application'*   
 * 0.4. Copy the keys and tokens into entries in Step 0 of **twiOpinion**  
-![Function0](graphs/Function0.png=500x)
+![Function0](graphs/Function0.png =500x)
 
 ### Function 1.  Crawling From Twitter
 Crawl real-time tweets by the keyword/tag you indicated:  
@@ -41,10 +41,10 @@ Crawl real-time tweets by the keyword/tag you indicated:
 * 1.4. Click **Check** to check number of tweets that have been crawled up to now.
 * 1.5. Click **Fetch** to process crawled tweets, output files named "stream\_(Keyword)\_Fetched.json." and "stream\_(Keyword)\_Fetched.txt." Explain later 
 * 1.6. Click **Stop** to do fetch firstly and then stop crawling and exit current function. 
-![Function1](graphs/Function1.png=500x)
+![Function1](graphs/Function1.png =500x)
 
 ### Function 2.  Labeling Tweets 
-![Function2](graphs/Function2.png=500x)
+![Function2](graphs/Function2.png =500x)
 
 ### Function 3.  Learning and Classifying 
 
