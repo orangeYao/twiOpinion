@@ -21,7 +21,7 @@ Helpful information will be displayed on the blue label at the bottom of each fr
 Select the function you like to use by selecting radiobuttons and click **Start!**.  
 Check your current working directory by clicking **Path**.   
 For Mac users: the working directory will usually be in subfolder of /Applications. To access it by 'Finder', right click /Applications/twiOpinion and click *'Show Package Contents'*   
-![FunctionMain](graphs/FunctionMain.png =500x)
+<img src="graphs/FunctionMain.png" alt="FunctionMain" style="width: 500px;"/>
 
 ### Function 0.  Twitter Accessing Setting
 Generate the configuration file necessary for crawling Twitter: 
