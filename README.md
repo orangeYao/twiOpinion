@@ -1,12 +1,13 @@
 # twiOpinion
-**twiOpinion** enables users without programming experience to learn about public opinion through Twitter.   
+**twiOpinion** aims at enabling users without programming experience to learn about public opinion through Twitter.   
 
-![icon](graphs/icon.png)
+<img src="graphs/icon.png" alt="icon" width="120"/>
 
 ## Introduction
 * It accesses Twitter, a social networking service, and performs classification by machine learning on tweets.  
-* No programming is required. 
-* Both graphics user interface and command line interface is provided on operating systems including Linux, MacOS and Windows.  
+* No programming skill is required. 
+* Source code is written in Python only, graphics user interface is realized by 'Tkinter'. Third-party Python libraries involved: 'tweepy', 'guess\_language', 'nltk', 'pandas', 'sklearn', 'twitter'. 
+* Both graphics user interface and command line interface are provided on operating systems including Linux, MacOS and Windows.  
 
 ## Installation
 For Mac Users, click following link to download **twiOpinionDisk.dmg**:   
@@ -48,7 +49,7 @@ Crawl real-time tweets by the keyword/tag you indicated:
 Label tweets into two classes by keywords or manully, which form the training set.
 * 2.0. Input the file containing fetched tweets in the third entry, hint: replace "(step1Tag)" by the tag you set in previous crawling step.   
 * 2.1. Decide whether label by different keywords or label manually.  
-* 2.2. For labeling by keywords, input the conditions under which a tweet can be labeled into each class. You can indicate the condition by logical espression and, or, not. For instance, when you have three keywords kA, kB, kC, the input can be: "kA and kB or not kC"   
+* 2.2. For labeling by keywords, input the conditions under which a tweet can be labeled into each class. You can indicate the condition by logical espression 'and', 'or', 'not'. For instance, when you have three keywords 'kA', 'kB', 'kC', the input can be: "kA and kB or not kC"   
 <img src="graphs/Function2.png" alt="Function2" width="500"/>
 
 ### Function 3.  Learning and Classifying 
