@@ -60,7 +60,7 @@ Label tweets into two classes by keywords or manully, which form the training se
 [py2app](https://py2app.readthedocs.io/en/latest/) - Make standalone Mac OS X application bundles and plugins from Python scripts.
 
 ## Author
-[Zhiyao XIE](www.zhiyaoxie.com), City University of Hong Kong, EE. 
+[Zhiyao XIE](http://www.zhiyaoxie.com), City University of Hong Kong, EE. 
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
