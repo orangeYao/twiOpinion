@@ -8,8 +8,9 @@ import os
 import functions
 
 start_bt_ms = "Welcome! Think about the how you want to label tweets."
-count = -1 
+count = -1 # not updated after recalled 
 Mflag = False
+Kflag = False 
 
 class App(tk.Frame):
     def __init__(self, master):
@@ -20,7 +21,7 @@ class App(tk.Frame):
         self.master.tk_setPalette(background='#ececec')
 
         self.master.protocol('WM_DELETE_WINDOW', self.click_cancel)
-        self.master.bind('<Return>', self.click_ok)
+        self.master.bind('<Return>', self.click_ok1)
         self.master.bind('<Escape>', self.click_cancel)
 
         x = (self.master.winfo_screenwidth() - self.master.winfo_reqwidth()) / 2
@@ -33,6 +34,10 @@ class App(tk.Frame):
                    font='System 18 bold', justify='left', aspect=800).pack(pady=(5, 0))
         tk.Message(self, text= "Step 2. Labeling",
                    font='System 14 bold', justify='left', aspect=800).pack(pady=(5, 0))
+
+        global Mflag, Kflag
+        Mflag = False
+        Kflag = False 
 
         ## frame 1
         f1 = tk.Frame(self)
@@ -60,8 +65,8 @@ class App(tk.Frame):
         self.f1l3L = tk.Label(f1, text='Path:')
         self.f1l3L.grid(row=7, column=0, sticky='w')
         self.pass_input = tk.Entry(f1, background='white', width=30)
-        #self.pass_input.insert(0,"./output/stream_(step1Tag).txt")
-        self.pass_input.insert(0,"./output/stream_China.txt")
+        self.pass_input.insert(0,"./output/stream_(step1Tag)_Fetched.json")
+        #self.pass_input.insert(0,"./output/stream_China_Fetched.json")
         self.pass_input.grid(row=7, column=1, sticky='w')
 
         ##frame middle 1.5
@@ -100,10 +105,15 @@ class App(tk.Frame):
         ## frame last 
         fb = tk.Frame(self)
         fb.pack(padx=60, pady=(0, 15), anchor='e')
-        self.stb = tk.Button(fb, text='Keywords', height=1, width=6, default='active', command=self.click_ok)
+        self.stb = tk.Button(fb, text='Keyword1', height=1, width=6, default='active', command=self.click_ok1)
         self.stb.pack(side='right')
-        self.stb.bind("<Enter>", self.hover_on)
+        self.stb.bind("<Enter>", self.hover_on1)
         self.stb.bind("<Leave>", self.hover_off)
+
+        self.stb1 = tk.Button(fb, text='Keyword2', height=1, width=6, default='active', command=self.click_ok2)
+        self.stb1.pack(side='right')
+        self.stb1.bind("<Enter>", self.hover_on2)
+        self.stb1.bind("<Leave>", self.hover_off)
 
         self.stb2 = tk.Button(fb, text='Manual', height=1, width=6, command=self.click_ok_manual)
         self.stb2.pack(side='right')
@@ -126,32 +136,83 @@ class App(tk.Frame):
     def hover_on_manual(self, event=None):
         self.label.config(text="Click to label manually, leaving keywords entries blank")
 
-    def hover_on(self, event=None):
-        self.label.config(text="Click to label by keywords")
+    def hover_on1(self, event=None):
+        self.label.config(text="Click to label by keywords into class 1")
+
+    def hover_on2(self, event=None):
+        self.label.config(text="Click to label by keywords into class 2")
 
     def hover_off(self, event=None):
         self.label.config(text=start_bt_ms)
+
+    def click_ok1(self, event=None):
+        global Kflag
+        Kflag = 1 
+        self.click_ok()
+
+    def click_ok2(self, event=None):
+        global Kflag 
+        Kflag = 2 
+        self.click_ok()
 
     def click_ok(self, event=None):
         if not os.path.isfile(self.pass_input.get()):
             self.label.config(text="File "+self.pass_input.get()+" doesn't exist!")
             return 0 
 
-        print "keyword1: " + self.user_input.get()
-        print "keyword2: " + self.user_input2.get()
-        print "file: " + self.pass_input.get()
+        self.classes=[]
+        if Kflag == 1:
+            condition_s = self.user_input.get()
+        elif Kflag == 2:
+            condition_s = self.user_input2.get()
+
+        condition_l = condition_s.replace("("," ").replace(")"," ").split()
+        for bool_seperator in ["and", "or", "not"]:
+            condition_l[:] = (value for value in condition_l if value != bool_seperator)
+        if condition_s.strip() == "":
+            condition_l = ['']
+
+        tmp_count = 0
+        #self.tweets = functions.readManyStrings(self.pass_input.get())
+        self.tweets = functions.readManyJsons(self.pass_input.get())
+        for tweet_d in self.tweets:
+            tweet = tweet_d["text"] 
+            condition_s_tmp = condition_s
+            for condition in condition_l:
+                if functions.findWholeWord(condition)(tweet) is not None:
+                    condition_s_tmp = condition_s_tmp.replace(condition, "True")
+                else:
+                    condition_s_tmp = condition_s_tmp.replace(condition, "False")
+            try:
+                if eval(condition_s_tmp):
+                    tmp_count += 1 
+                    self.classes.append(tweet_d)
+            except SyntaxError:
+                self.label.config(text="SyntaxError in keywords!")
+                return 0
+        self.label.config(text=str(tmp_count) + " tweets are selected as class " + str(Kflag))
+
+        tmpPath = os.path.dirname(self.pass_input.get())
+        if Kflag == 1:
+            functions.simpleWriteJson(self.classes, tmpPath + "/positive.json")
+            functions.simpleWriteJsonText(self.classes, tmpPath + "/positive.txt")
+        elif Kflag == 2:
+            functions.simpleWriteJson(self.classes, tmpPath + "/negative.json")
+            functions.simpleWriteJsonText(self.classes, tmpPath + "/negative.txt")
+
 
     def click_ok_manual(self, event=None):
         if not os.path.isfile(self.pass_input.get()):
             self.label.config(text="File "+self.pass_input.get()+" doesn't exist!")
             return 0 
 
-        print "file: " + self.pass_input.get()
+        print "File: " + self.pass_input.get()
 
         self.label.config(text="Label tweets manually")
         global start_bt_ms
         start_bt_ms = "Label tweets manually"
         self.stb.config(state='disabled')
+        self.stb1.config(state='disabled')
         self.stb2.config(state='disabled')
 
         self.ctl_1.config(state='active')
@@ -171,7 +232,8 @@ class App(tk.Frame):
 
         self.stb3.config(text="Save&Quit",default='active',width=7)
 
-        self.tweets = functions.readManyStrings(self.pass_input.get())
+        #self.tweets = functions.readManyStrings(self.pass_input.get())
+        self.tweets = functions.readManyJsons(self.pass_input.get())
         self.next_twi()
         self.class1=[]
         self.class2=[]
@@ -181,19 +243,23 @@ class App(tk.Frame):
     def click_cancel(self, event=None):
         if Mflag:
             tmpPath = os.path.dirname(self.pass_input.get())
-            functions.writeList(self.class1,tmpPath + "/positive.txt")
-            functions.writeList(self.class2,tmpPath + "/negative.txt")
+            #functions.simpleWriteList(self.class1,tmpPath + "/positive.txt")
+            #functions.simpleWriteList(self.class2,tmpPath + "/negative.txt")
+            functions.simpleWriteJson(self.class1, tmpPath + "/positive.json")
+            functions.simpleWriteJson(self.class2, tmpPath + "/negative.json")
+            functions.simpleWriteJsonText(self.class1, tmpPath + "/positive.txt")
+            functions.simpleWriteJsonText(self.class2, tmpPath + "/negative.txt")
         print("The user clicked 'Cancel'")
         self.master.destroy()
 
     def click_1(self, event=None):
         if self.next_twi() == 1:
-            self.class1.append(self.display)
+            self.class1.append(self.tweet_element)
             self.disp_twi()
 
     def click_2(self, event=None):
         if self.next_twi() == 1:
-            self.class2.append(self.display)
+            self.class2.append(self.tweet_element)
             self.disp_twi()
 
     def click_3(self, event=None):
@@ -206,7 +272,8 @@ class App(tk.Frame):
         if count >= len(self.tweets):
             self.label.config(text="Maximum number of tweets reached!")
             return 0
-        self.display = self.tweets[count].strip() #\n at end of self.display
+        self.display = self.tweets[count]["text"]
+        self.tweet_element = self.tweets[count]
         self.dis.config(text="\nTweet No."+str(count)+": "+self.display+"\n")  
         return 1
 

@@ -5,6 +5,7 @@ import pandas as pd
 from nltk.corpus import stopwords
 stop = stopwords.words('english')
 import csv
+import json
 
 def startingInfo():
     with open ("startingInfo.txt", "r") as myfile:
@@ -99,11 +100,11 @@ def filterZeroSeperately(input_list, input_score):
     return input_list, input_score
 
 def readTestComment(path, numberForTraining):
+    ## change here
     # used for reading a test set in nltk
     input_list = []
     score_list = []
     count = 0
-    print (path + 'positive.txt')
     with open(path + 'positive.txt') as f:
         for line in f:
             if count < numberForTraining/2:
@@ -129,6 +130,14 @@ def readManyStrings(path):
             input_list.append(line)
     return input_list
 
+
+def readManyJsons(path):
+    input_list = []
+    with open(path, 'r') as f:
+        for line in f:
+            input_list.append(json.loads(line))
+    return input_list
+
 def writeList(listname, filename):
     f = open(filename, "w")
     count = 0;
@@ -142,6 +151,21 @@ def simpleWriteList(listname, filename):
     for line in listname:
         f.write(line)
 
+def simpleWriteJson(listname, filename):
+    outfile = open(filename, 'w')
+    for query_dict in listname:
+        json.dump(query_dict, outfile)
+        outfile.write('\n')
+
+
+def simpleWriteJsonText(listname, filename):
+    outfile = open(filename, 'w')
+    for query_dict in listname:
+        outfile.write(query_dict["text"]+'\n')
+
+
+def findWholeWord(w):
+    return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
 
 
 

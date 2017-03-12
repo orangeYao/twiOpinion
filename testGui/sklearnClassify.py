@@ -61,8 +61,8 @@ def learn(data, score, numberForTraining, c_type, f_tweets, writeOut, tweets, pa
 def application(text_clf, f_tweets, writeOut, tweets, path):
     predicted = text_clf.predict(f_tweets)
     if writeOut:
-        simpleWriteList ([i for i,j in zip(tweets, predicted) if j == '1'], path+ "newlabeledPositive.txt")
-        simpleWriteList ([i for i,j in zip(tweets, predicted) if j == '-1'], path+ "newlabeledNegative.txt")
+        simpleWriteList ([i for i,j in zip(tweets, predicted) if j == '1'], path+ "unknownLabeledPositive.txt")
+        simpleWriteList ([i for i,j in zip(tweets, predicted) if j == '-1'], path+ "unknownLabeledNegative.txt")
 
     support = sum(predicted == '1')
     not_support = sum(predicted == '-1')

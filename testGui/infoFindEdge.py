@@ -31,7 +31,6 @@ def writeJson(query_dict, fileName):
             json.dump(query_dict, outfile)
             outfile.write('\n')
 
-
 def writeCsv(query_dict, fileName):
     global csv_has_head
     if not csv_has_head:

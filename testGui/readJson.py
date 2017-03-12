@@ -11,6 +11,7 @@ from guess_language import guessLanguage  #in local
 
 from optparse import OptionParser
 parser = OptionParser()
+wanted_keys = ['statuses_count', 'followers_count', 'friends_count', 'screen_name', 'created_at', 'location']
 
 def is_ascii(text): #true means normal string, false needs handle
     if isinstance(text, unicode):
@@ -44,10 +45,13 @@ def filter(text):
 
 def main(fileNameIn):
     count = 0;
-    f = open(fileNameIn[0:-4] + "txt", 'w')
+    f = open(fileNameIn[0:-5] + "_Fetched.txt", 'w')
+    f2 = open(fileNameIn[0:-5] + "_Fetched.json", 'w')
+
     for line in open(fileNameIn, 'r'):
         try:
-            tweet = json.loads(line).get("text")
+            loaded = json.loads(line)
+            tweet = loaded.get("text")
         except ValueError:
             #print "valueError cateched!"
             continue
@@ -59,4 +63,11 @@ def main(fileNameIn):
                 if is_ascii(tweet):
                     f.write(tweet + '\n')
                     count += 1
+
+                    f2_dict = {}
+                    f2_dict["text"] = tweet
+                    for key in wanted_keys: 
+                        f2_dict[key] = loaded["user"].get(key)
+                    json.dump(f2_dict, f2)
+                    f2.write('\n')
     return count

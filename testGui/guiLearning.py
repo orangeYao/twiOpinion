@@ -37,11 +37,11 @@ class App(tk.Frame):
         f1 = tk.Frame(self)
         f1.pack(padx=60, pady=10, anchor='w')
 
-        tk.Label(f1, text= 'The folder you stored labeled data (blank default as ./output):' 
+        tk.Label(f1, text= 'The folder you stored labeled data (default as ./output/):' 
                         ).grid(row=0,column=0,columnspan=9,sticky='w')
         tk.Label(f1, text='Path:').grid(row=1, column=0, sticky='w')
         self.user_input = tk.Entry(f1, background='white', width=30)
-        self.user_input.insert(0,"./output")
+        self.user_input.insert(0,"./output/")
         self.user_input.grid(row=1, column=1,columnspan=4, sticky='w')
 
         
@@ -60,11 +60,9 @@ class App(tk.Frame):
 
         tk.Label(f1, text='Labeled:').grid(row=7, column=0, sticky='w')
         self.pass_inputL = tk.Entry(f1, background='white', width=10)
-        self.pass_inputL.insert(0,"6000")
         self.pass_inputL.grid(row=7, column=1, sticky='w')
         tk.Label(f1, text='Unlabeled:').grid(row=7, column=2, sticky='w')
         self.pass_inputR = tk.Entry(f1, background='white', width=10)
-        self.pass_inputR.insert(0,"5000")
         self.pass_inputR.grid(row=7, column=3, sticky='w')
 
         #buttons at bottom
@@ -123,9 +121,9 @@ class App(tk.Frame):
         if self.radio_var.get() == 1:
             self.label1.config(text="Support Vector Machine, may take a while (^0^)/")
         elif self.radio_var.get() == 2:
-            self.label1.config(text="Naive Bayes classifier multinomial models, may take a while (^0^)/")
+            self.label1.config(text="Naive Bayes classifier multinomial model, may take a while (^0^)/")
         elif self.radio_var.get() == 3:
-            self.label1.config(text="Naive Bayes classifier Bernoulli models, may take a while (^0^)/")
+            self.label1.config(text="Naive Bayes classifier Bernoulli model, may take a while (^0^)/")
         elif self.radio_var.get() == 4:
             self.label1.config(text="Decision tree, may take a while (^0^)/")
         elif self.radio_var.get() == 0:
@@ -140,7 +138,7 @@ class App(tk.Frame):
         global start_bt_ms
         learn_flag = False
         if self.radio_var.get()<1 or self.radio_var.get()>4: 
-            self.label1.config(text="Error: select algorithm you want~")
+            self.label1.config(text="Error: select algorithm you want before learning~")
             return 0
 
         if not learn_flag: 
@@ -160,17 +158,22 @@ class App(tk.Frame):
     def click_info(self, event=None):
         file1 = self.user_input.get()+"/positive.txt"
         file2 = self.user_input.get()+"/negative.txt"
+
         global start_bt_ms
         if os.path.isfile(file1) and os.path.isfile(file2) and os.path.isfile(self.pass_input.get()):
             info = "Indicated labeled file exist, " 
             line_num = min(sum(1 for line in open(file1)), sum(1 for line in open(file2)))
             info += "maximum line num is: " + str(line_num)
+            self.pass_inputL.delete(0, tk.END)
+            self.pass_inputL.insert(0, line_num)
             start_bt_ms = info
             self.label1.config(text=info)
 
             info2 = "Indicated unlabeled file exist, "
             line_num2 = sum(1 for line in open(self.pass_input.get()))
             info2 += "line num is: " + str(line_num2)
+            self.pass_inputR.delete(0, tk.END)
+            self.pass_inputR.insert(0, line_num2)
             self.label2.config(text=info2)
             global learn_flag
             learn_flag = True

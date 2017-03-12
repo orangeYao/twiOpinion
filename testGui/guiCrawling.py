@@ -116,6 +116,10 @@ class App(tk.Frame):
     def click_ok(self, event=None):
         print "keyword: " + self.user_input.get()
         print "folder: " + self.pass_input.get()
+        if self.user_input.get().strip() == "":
+            self.label.config(text="Error: Indicate keywords before start crawling") 
+            return 0
+
         self.file_name = self.pass_input.get() + "/stream_" + self.user_input.get() + ".json"
         print self.file_name
 

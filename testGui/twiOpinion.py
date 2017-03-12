@@ -120,7 +120,7 @@ class App(tk.Frame):
 
     def click_path(self, event=None):
         self.pathDisplayed = True
-        self.path_check.config(text= "        Current working directory is:  ⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄\n\n" + os.getcwd() +"\n")
+        self.path_check.config(text= "\n        Current working directory is:  ⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄\n\n" + os.getcwd() +"\n")
         self.update()  # update! otherwise error occurs if text too long 
         self.stb1_5.config(text="PackUp", command = self.click_pack)
 
@@ -131,9 +131,12 @@ class App(tk.Frame):
 
 
     def click_ok(self, event=None):
-        self.programOutput.set("Function started.")
         global start_bt_ms
-        start_bt_ms = "Function started."
+        if self.var.get() == 0:
+            self.programOutput.set("No function is selected ~")
+        else:
+            self.programOutput.set("Function started")
+            start_bt_ms = "Function started"
 
         if self.var.get() == 1:
             configuration() 

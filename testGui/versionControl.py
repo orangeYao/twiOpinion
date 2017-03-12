@@ -1,5 +1,5 @@
 def greeting():
-    return "Welcome to twiOpinion 0.1.3!"
+    return "Welcome to twiOpinion 1.1.3!"
 
 def startingInfo():
     with open ("../startingInfo.txt", "r") as myfile:
