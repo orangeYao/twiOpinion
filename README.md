@@ -1,5 +1,6 @@
 # twiOpinion
 **twiOpinion** enables users without programming experience to learn about public opinion through Twitter.   
+
 ![icon](graphs/icon.png)
 
 ## Introduction
@@ -18,9 +19,9 @@ For Linux User, clone codes directly.
 Helpful information will be displayed on the blue label at the bottom of each frame. Hover your mouse above buttons when you need more information.  
 
 ### Main function
-Select the function you like to use by selecting radiobuttons and click **Start!**.  
-Check your current working directory by clicking **Path**.   
-For Mac users: the working directory will usually be in subfolder of /Applications. To access it by 'Finder', right click /Applications/twiOpinion and click *'Show Package Contents'*   
+* Select the function you like to use by selecting radiobuttons and click **Start!**.  
+* Check your current working directory by clicking **Path**. Users are encouraged to do minor modifications on intermediate text files.  
+* For Mac users: the working directory will usually be in subfolder of /Applications. To access it by 'Finder', right click /Applications/twiOpinion and click *'Show Package Contents'*   
 <img src="graphs/FunctionMain.png" alt="FunctionMain" width="500"/>
 
 ### Function 0.  Twitter Accessing Setting
@@ -30,7 +31,7 @@ Generate the configuration file necessary for crawling Twitter:
 * 0.2. Enter your application name, description and your website address.  
 * 0.3. Submit the form by clicking the *'Create your Twitter Application'*   
 * 0.4. Copy the keys and tokens into entries in Step 0 of **twiOpinion**  
-![Function0](graphs/Function0.png =500x)
+<img src="graphs/Function0.png" alt="Function0" width="500"/>
 
 ### Function 1.  Crawling From Twitter
 Crawl real-time tweets by the keyword/tag you indicated:  
@@ -41,10 +42,14 @@ Crawl real-time tweets by the keyword/tag you indicated:
 * 1.4. Click **Check** to check number of tweets that have been crawled up to now.
 * 1.5. Click **Fetch** to process crawled tweets, output files named "stream\_(Keyword)\_Fetched.json." and "stream\_(Keyword)\_Fetched.txt." Explain later 
 * 1.6. Click **Stop** to do fetch firstly and then stop crawling and exit current function. 
-![Function1](graphs/Function1.png =500x)
+<img src="graphs/Function1.png" alt="Function1" width="500"/>
 
 ### Function 2.  Labeling Tweets 
-![Function2](graphs/Function2.png =500x)
+Label tweets into two classes by keywords or manully, which form the training set.
+* 2.0. Input the file containing fetched tweets in the third entry, hint: replace "(step1Tag)" by the tag you set in previous crawling step.   
+* 2.1. Decide whether label by different keywords or label manually.  
+* 2.2. For labeling by keywords, input the conditions under which a tweet can be labeled into each class. You can indicate the condition by logical espression and, or, not. For instance, when you have three keywords kA, kB, kC, the input can be: "kA and kB or not kC"   
+<img src="graphs/Function2.png" alt="Function2" width="500"/>
 
 ### Function 3.  Learning and Classifying 
 
