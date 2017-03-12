@@ -1,13 +1,16 @@
 # twiOpinion
-## Introduction
 **twiOpinion** enables users without programming experience to learn about public opinion through Twitter.   
-It accesses Twitter, a social networking service, and applies machine learning on tweets.  
-No programming experience is required for users. Both graphics user interface and command line interface is provided on operating systems including Linux, MacOS and Windows.  
+![icon](graphs/icon.png)
+
+## Introduction
+* It accesses Twitter, a social networking service, and performs classification by machine learning on tweets.  
+* No programming is required. 
+* Both graphics user interface and command line interface is provided on operating systems including Linux, MacOS and Windows.  
 
 ## Installation
 For Mac Users, click following link to download **twiOpinionDisk.dmg**:   
-![installByDmg](graphs/dmgCapture.png)
 https://www.dropbox.com/sh/fvqerxiw8nbta8o/AABlKIQrV2LOoZ4eDDF8UHLIa?dl=1  
+![installByDmg](graphs/dmgCapture.png)
 
 For Linux User, clone codes directly.  
 
