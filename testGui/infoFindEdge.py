@@ -8,7 +8,8 @@ reload(sys)
 
 sys.setdefaultencoding('utf-8')
 csv_has_head = False 
-wanted_keys = ['statuses_count', 'followers_count', 'friends_count', 'screen_name', 'created_at', 'location', 'lang'] 
+#wanted_keys = ['statuses_count', 'followers_count', 'friends_count', 'screen_name', 'created_at', 'location', 'lang'] 
+wanted_keys = ['statuses_count', 'followers_count', 'friends_count', 'screen_name', 'created_at', 'location', 'lang', 'profile_image_url_https'] 
 
 def readList(fileName):
     with open (fileName, 'r') as readfile:

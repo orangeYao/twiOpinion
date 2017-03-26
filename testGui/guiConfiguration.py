@@ -84,8 +84,8 @@ class App(tk.Frame):
         self.label.config(text="Configuration file has been generated! You can quit now.")
         global start_bt_ms
         start_bt_ms = "Configuration file has been generated! You can quit now."
-        keys = ["consumer_key = "+self.l1.get(), "consumer_secret = "+self.l2.get(),
-                "access_token = "+self.l3.get(), "access_secret = "+self.l4.get()]
+        keys = ["consumer_key = \'"+self.l1.get()+"\'", "consumer_secret = \'"+self.l2.get()+"\'",
+                "access_token = \'"+self.l3.get()+"\'", "access_secret = \'"+self.l4.get()+"\'"]
 
         f = open("config.py", "w")
         for line in keys:

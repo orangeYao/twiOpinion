@@ -59,8 +59,13 @@ class App(tk.Frame):
         self.stb2.bind("<Enter>", self.hover_on2)
         self.stb2.bind("<Leave>", self.hover_off)
 
+        self.stb2_4 = tk.Button(fb, text='FriendNet', height=1, width=6, command=self.click_ok2_5)
+        self.stb2_4.pack(side='right')
+        self.stb2_4.bind("<Enter>", self.hover_on7)
+        self.stb2_4.bind("<Leave>", self.hover_off)
+
         self.stb2_5 = tk.Button(fb, text='Check', height=1, width=6, state='disabled', command=self.click_check)
-        self.stb2_5.pack(side='right')
+        self.stb2_5.pack(side='right', padx=10)
         self.stb2_5.bind("<Enter>", self.hover_on6)
         self.stb2_5.bind("<Leave>", self.hover_off)
 
@@ -75,7 +80,7 @@ class App(tk.Frame):
         tk.Label(f2, text='File path:     ').grid(row=5, column=0, sticky='w')
         self.l3 = tk.Entry(f2, background='white',width=30)
         self.l3.grid(row=5, column=1,columnspan=1, sticky='w')
-        self.l3.insert(0, "./info/realDonaldTrump.txt")
+        self.l3.insert(0, "./info/realDonaldTrump_friend.txt")
 
         ## frame 2 buttons
         fb2 = tk.Frame(self)
@@ -120,6 +125,9 @@ class App(tk.Frame):
     def hover_on6(self, event=None):
         self.label.config(text="Click to check getting process")
 
+    def hover_on7(self, event=None):
+        self.label.config(text="Click to get his/her friends network, 1 node/minute")
+
     def hover_off(self, event=None):
         self.label.config(text=start_bt_ms)
 
@@ -132,9 +140,36 @@ class App(tk.Frame):
         self.followFriend = "friends" 
         self.midthread()
 
+    def click_ok2_5(self, event=None):
+        self.followFriend = "net" 
+        self.midthread()
+
+    def configDetect(self, event=None):
+        try:
+            execfile("config.py", {})
+        except IOError:
+            self.label.config(text="Error: Configuration file doesn't exist")
+            return False 
+        except SyntaxError:
+            self.label.config(text="Error: Format error in configuration file")
+            return False
+        return True
+
+
     def midthread(self, event=None):
+        #updated march 25th
+        if not self.configDetect():
+            return 0
+
+        if self.followFriend == "net":
+            self.outputtingName = self.l2.get() + "/" + self.l1.get() + "_chain.txt" 
+        elif self.followFriend == "followers":
+            self.outputtingName = self.l2.get() + "/" + self.l1.get() + "_follower.txt"
+        else:
+            self.outputtingName = self.l2.get() + "/" + self.l1.get() + "_friend.txt"
+
         global start_bt_ms
-        start_bt_ms = "Started, output in \'"+self.l2.get()+"/"+self.l1.get()+".txt\'" 
+        start_bt_ms = "Started, output in \'" + self.outputtingName + ".\'" 
         self.label.config(text=start_bt_ms)
 
         newthread = threading.Thread(target=self.threadGet)
@@ -145,11 +180,19 @@ class App(tk.Frame):
         self.stb2_5.config(default='active', state='active')
         self.disable()
         print "thread!"
-        getFollower(self.l1.get(), self.l2.get(), self.followFriend)
+        getFollower(self.l1.get(), self.l2.get(), self.followFriend, self.outputtingName)
 
     def click_check(self, event=None):
-        tmpLines = sum(1 for line in open(self.l2.get() + "/" + self.l1.get() + ".txt"))
-        self.label.config(text=str(tmpLines)+" "+ self.followFriend +" already found")
+        try:
+            tmpLines = sum(1 for line in open(self.outputtingName))
+        except IOError:
+            self.label.config(text="No lines already found")
+            return 0
+        if tmpLines % 100 == 0:
+            self.label.config(text=str(tmpLines)+" lines of "+ self.followFriend +" already found, unfinished")
+        else:
+            self.label.config(text=str(tmpLines)+" lines of "+ self.followFriend +" already found, finished, save and quit")
+
         print "click check"
 
 
@@ -167,7 +210,15 @@ class App(tk.Frame):
         start_bt_ms = "Started, output in \'" + self.l3.get()[0:-4] + self.outFormat + "\'" 
         self.label.config(text=start_bt_ms)
 
-        self.lines_to_get = sum(1 for line in open(self.l3.get())) 
+        try:
+            self.lines_to_get = sum(1 for line in open(self.l3.get())) 
+        except IOError:
+            self.label.config(text="Error: Twitter ids file doesn't exist")
+            return 0
+
+        if not self.configDetect():
+            return 0
+
         newthread = threading.Thread(target=self.threadGet2)
         newthread.daemon = True
         newthread.start()
@@ -192,7 +243,7 @@ class App(tk.Frame):
         self.stb2.config(state='disabled')
         self.stb3.config(state='disabled')
         self.stb4.config(state='disabled')
-
+        self.stb2_4.config(state='disabled')
 
     def click_cancel(self, event=None):
         print("The user clicked 'Cancel'")

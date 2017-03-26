@@ -120,6 +120,16 @@ class App(tk.Frame):
             self.label.config(text="Error: Indicate keywords before start crawling") 
             return 0
 
+        try:
+            execfile("config.py", {})
+        except IOError:
+            self.label.config(text="Error: Configuration file doesn't exist")
+            return 0
+        except SyntaxError:
+            self.label.config(text="Error: Format error in configuration file")
+            return 0
+
+
         self.file_name = self.pass_input.get() + "/stream_" + self.user_input.get() + ".json"
         print self.file_name
 
@@ -183,8 +193,10 @@ def crawling():
     info['LSUIElement'] = True
 
     fixbug = "/Users/wuwenzhen/python/tweets/developSoftware/dustbin/py2app/venv/lib/python2.7/site-packages/pip/_vendor/requests/cacert.pem"
+#    fixbug = certifi.where()
     if os.path.isfile(fixbug):
         os.environ['REQUESTS_CA_BUNDLE'] = fixbug 
+    # otherwise SSLError: [Errno 20]
 
     root = tk.Tk()
     app = App(root)

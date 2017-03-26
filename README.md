@@ -49,7 +49,7 @@ Generate the configuration file necessary for crawling Twitter:
 Crawl real-time tweets by the keyword/tag you indicated:  
 * 1.0. Fill the tag/keyword you wish to crawl from Twitter in the first entry.  
 * 1.1. Fill in the folder you wish to store crawled data in, which is default as "./output"  
-* 1.2. Click **Start!** to start crawling real-time tweets. Wait till you get enough tweets. Output file named "stream\_(Keyword).json."  
+* 1.2. Click **Start!** to start crawling real-time tweets. Gathering speed highly dependent on real-time volume of such keyword. Wait till you get enough tweets. Output file named "stream\_(Keyword).json."  
 * 1.3. Three buttons will be activated to control the crawling process now.  
 * 1.4. Click **Check** to check number of tweets that have been crawled up to now.
 * 1.5. Click **Fetch** to process crawled tweets, output files: "stream\_(Keyword)\_Fetched.json." and "stream\_(Keyword)\_Fetched.txt." Explain later  
@@ -57,7 +57,7 @@ Crawl real-time tweets by the keyword/tag you indicated:
 
 #### Output Files in Function 1: *stream\_(Keyword)\.json*, *stream\_(Keyword)\_Fetched.json*, *stream\_(Keyword)\_Fetched.txt*
 * *stream\_(Keyword)\.json* contains raw crawled data.  
-* *stream\_(Keyword)\_Fetched.json* contains tweets fetched from raw crawled data,  including keys like:   
+* *stream\_(Keyword)\_Fetched.json* contains tweets fetched from raw crawled data, including keys like:   
 statuses\_count (number of tweets this account posted)   
 screen\_name (username of this account)  
 friends\_count (number of friends of the account)   
@@ -88,15 +88,44 @@ Label tweets into two classes by keywords or manully, which form the training se
 
 ### Function 3.  Learning and Classifying 
 Start classification by machine learning algorithms.  
+* 3.0. Input (absolute or relative) path of the folder containing well-labeled files ("positive.txt" and "negative.txt" corresponding to two classes). 
+* 3.1. Input the file containing unlabeled tweets, the tweets you wish to do classification on. This can be produced in Function 1 of twiOpinion or provided by yourself.
+* 3.2. Click **FileInfo** after having indicated both labeled and unlabeled files and before proceeding. **FileInfo** will check existence of two given labeled files and one unlabeled files. The upper blue label displays information about labeled files and lower cyan lebel displays information about unlabeled file. 
+* 3.3. Input number of twittes to use for labeled and unlabeled files. If required files are found in step 3.2, number of tweets will be automatically detected and filled into these two entries. Both numbers are maximum values and can only be decreased for a shorter training time. 
+* 3.4. Select the machine learning algorithm from four radiobuttion selections: Support Vector Machine, Multinomial Naive Bayes Classification, Bernoulli Naive Bayes Classification, and Decision Tree. All four options are implemented based on "sklearnClassify", a widely-used Python machine learning library. 
+* 3.5. Click **Learn!** to start classification. Classification may take a while, during which the training process should take most time. 
+
+#### Output Files in Function 3: *unknownLabeledPositive.txt*, *unknownLabeledNegative.txt*
+* *unknownLabeledPositive.txt* contains text contents of the unlabeled tweets that are classified as class 1
+* *unknownLabeledNegative.txt* contains text contents of the unlabeled tweets that are classified as class 2
 <img src="graphs/Function3.png" alt="Function3" width="500"/>
 
 ### Function 4.  Twitter User information 
-Get information about the followers/friends of certain account.  
+Get information about the followers/friends of certain account, a relatively independent function. Such function contains two seperate parts: getting ids of followers/friends of a Twitter account(upper half of frame), then crawling more information about these ids(lower half of frame).
+* 4.0. In order to get ids of followers/friends of an account, indicate username of the Twitter account, like "realDonaldTrump".
+* 4.1. Indicate the path of output files, (default as ./info).
+* 4.2. Choose whether to gather friends or followers of this account by clicking corresponding buttons. You can even get the network of the relations existing in all friends by clicking **FriendNet**. 
+* 4.3. Rather than crawling on stream in Function 1, speed of this static crawling is limited to 5000/minute by Twitter api. Thus this step can take long time for a popular target Twitter account. Click **Check** to check crawling progress. 
+* 4.4. In order to get information about Twitter ids, indicate the file containing ids, which can be the output from step 4.0-4.3 or be provided by yourself.  
+* 4.5. Click **.csv** or **.json** to select output file format. 
+* 4.6. Speed of such static crawling is limited to 100/second. Thus this step may also take long time. Click **Check** to check crawling progress.  
+* 4.7. Click **Save&Quit** to save all crawled contents. Backup output files before restarting to avoid overwritting. 
+
+#### Output Files in Function 4: *(AccountUserName_friend).txt*, *(AccountUserName_follower).txt*, *(AccountUserName_net).txt*, *(idFileName).csv*, *(idFileName).json*
+* *(AccountUserName_friend).txt* contains the account ids of friends of your target account. One id in each line.
+* *(AccountUserName_follower).txt* contains the account ids of followers of your target account. One id in each line.
+* *(AccountUserName_net).txt* contains the friend relation network among all friends of given username. One relation (edge) between two users (nodes) in each line. Format "(user1) pp (user2)", in which 'pp' represent the edge type. 
+* *(FileName).json* contains information like number of followers/friends, number of tweets issued, language, account creation time and location. Its format is similiar to *stream\_(Keyword)\_Fetched.json* in Funtion 1 except for an additional key:
+lang (language used by this account).
+* *(FileName).csv* contains same information as *(AccountUserName).json*, ids as rownames and information attributes as colnames.  
 <img src="graphs/Function4.png" alt="Function4" width="500"/>
 
 ### Tutorial Video
-Check my demonstration video on YouTube:  
-https://www.youtube.com/watch?v=Ozw7MR-ukY4&t=2s
+**Check my demonstration videos on YouTube:**    
+* [Installation(mac)] (https://youtu.be/YylVmS7qB5U) (3 mins) 
+* [Main function] (https://youtu.be/0J8Zj-OBkRk) (3 mins)  
+* [Function 0] (https://youtu.be/3K9WVsnZrvI) (5 mins)       
+* [Function 1] (https://youtu.be/xvDG_QRBJJI) (7 mins)  
 
 ## Built With
 [py2app](https://py2app.readthedocs.io/en/latest/) - Make standalone Mac OS X application bundles and plugins from Python scripts.
