@@ -14,7 +14,7 @@
 
 ## Installation
 For Mac Users, click following link to download **twiOpinionDisk.dmg**:   
-https://www.dropbox.com/sh/fvqerxiw8nbta8o/AABlKIQrV2LOoZ4eDDF8UHLIa?dl=1  
+https://www.dropbox.com/s/c8eat2h1wnseiod/twiOpinion.dmg?dl=1
 Install simply by draging:
 ![installByDmg](graphs/dmgCapture.png)
 

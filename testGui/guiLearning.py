@@ -55,15 +55,24 @@ class App(tk.Frame):
 
 
         tk.Label(f1, text='   ').grid(row=5, column=0, sticky='w')
-        tk.Label(f1, text='Number of labeled and unlabeled tweets (blank default as maximum):'
-                        ).grid(row=6,column=0,columnspan=5,sticky='w')
+        tk.Label(f1, text= 'Words to get rid of, seperating by comma (case insensitive):' 
+                        ).grid(row=6,column=0,columnspan=9,sticky='w')
+        tk.Label(f1, text='Words:').grid(row=7, column=0, sticky='w')
+        self.pass_input2 = tk.Entry(f1, background='white', width=30)
+        self.pass_input2.insert(0,"votetrump, votehillary")
+        self.pass_input2.grid(row=7, column=1,columnspan=4, sticky='w')
 
-        tk.Label(f1, text='Labeled:').grid(row=7, column=0, sticky='w')
+
+        tk.Label(f1, text='   ').grid(row=9, column=0, sticky='w')
+        tk.Label(f1, text='Number of labeled and unlabeled tweets (default as maximum):'
+                        ).grid(row=10,column=0,columnspan=5,sticky='w')
+
+        tk.Label(f1, text='Labeled:').grid(row=11, column=0, sticky='w')
         self.pass_inputL = tk.Entry(f1, background='white', width=10)
-        self.pass_inputL.grid(row=7, column=1, sticky='w')
-        tk.Label(f1, text='Unlabeled:').grid(row=7, column=2, sticky='w')
+        self.pass_inputL.grid(row=11, column=1, sticky='w')
+        tk.Label(f1, text='Unlabeled:').grid(row=11, column=2, sticky='w')
         self.pass_inputR = tk.Entry(f1, background='white', width=10)
-        self.pass_inputR.grid(row=7, column=3, sticky='w')
+        self.pass_inputR.grid(row=11, column=3, sticky='w')
 
         #buttons at bottom
 
@@ -74,14 +83,24 @@ class App(tk.Frame):
         f1_5.pack(padx=60, pady=(5,10), anchor='w')
         tk.Label(f1_5, text= 'Select a machine learning algorithm:'
                 ).grid(row=0,column=0,columnspan=9,sticky='w')
-        tk.Radiobutton(f1_5, text="SVM", value=1, command = self.r1,
+        R1 = tk.Radiobutton(f1_5, text="SVM", value=1, command = self.r1,
               indicatoron=0).grid(row=1, column=0)
-        tk.Radiobutton(f1_5, text="MultinomialNB",value=2, command = self.r2,
+        R2 = tk.Radiobutton(f1_5, text="MultinomialNB", value=2, command = self.r2,
               indicatoron=0).grid(row=1, column=1)
-        tk.Radiobutton(f1_5, text="BernoulliNB",value=3, command = self.r3,
+        R3 = tk.Radiobutton(f1_5, text="BernoulliNB", value=3, command = self.r3,
               indicatoron=0).grid(row=1, column=2)
-        tk.Radiobutton(f1_5, text="Decision Tree",value=4, command = self.r4,
+        R4 = tk.Radiobutton(f1_5, text="Decision Tree", value=4, command = self.r4,
               indicatoron=0).grid(row=1, column=3)
+        
+        # no use, bug in button appearance
+        #R1 = tk.Radiobutton(f1_5, text="SVM", value=1, variable=self.radio_var 
+        #      ).grid(row=1, column=0)
+        #R2 = tk.Radiobutton(f1_5, text="MultinomialNB",value=2, variable=self.radio_var
+        #      ).grid(row=1, column=1)
+        #R3 = tk.Radiobutton(f1_5, text="BernoulliNB",value=3, variable=self.radio_var
+        #      ).grid(row=1, column=2)
+        #R4 = tk.Radiobutton(f1_5, text="Decision Tree",value=4, variable=self.radio_var
+        #      ).grid(row=1, column=3)
 
         ##frame 2
         f2 = tk.Frame(self)
@@ -147,10 +166,10 @@ class App(tk.Frame):
         if learn_flag:
             print "learn_flag is: " + str(learn_flag)
             accur, sup, not_sup = learnfunction (self.user_input.get()+"/", self.pass_input.get(),
-                    int(self.pass_inputL.get()), int(self.pass_inputR.get()), self.radio_var.get())
+                    int(self.pass_inputL.get()), int(self.pass_inputR.get()), self.radio_var.get(), self.pass_input2.get())
 
             global next_bt_ms
-            start_bt_ms = "The accuracy of classifier: "+accur
+            start_bt_ms = "The accuracy of classifier: " + accur[0:7]
             next_bt_ms = "Class 1 number: "+sup+", class 2 number: "+not_sup
             self.label1.config(text=start_bt_ms)
             self.label2.config(text=next_bt_ms)

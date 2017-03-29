@@ -1,7 +1,6 @@
 import re
 from nltk import PorterStemmer
 from nltk import FreqDist
-import pandas as pd
 from nltk.corpus import stopwords
 stop = stopwords.words('english')
 import csv
@@ -40,19 +39,20 @@ def formRawDict(filtered, input_score):
 	return concat(dct1, dct2)	
 
 
-def filter(text):
+def filter(text, removeWords):
     #get rid stop word, puctuation, number, turn to lower case and check length, also stemming
     return_list = []
     for i in re.split("[,. ()\- \\\\s =\n-\!?#:_'%$/@\"]+",text):
         j = i.lower()
-        if 'votetrump' in j or 'votehillary' in j:
-            #print "j is: " + j
-            j = j.replace('votetrump','')
-            j = j.replace('votehillary','')
-            #print "after is: " + j
+
+        # remove words like 'votetrump', 'votehillary'
+        removeList = removeWords.lower().replace(" ", "").split(",")
+        for remove_element in removeList:
+            j = j.replace(remove_element, '')
 
         if len(j) > 1 and is_ascii(j) and (j not in stop):
             k = PorterStemmer().stem_word(j)
+            #k = PorterStemmer().stem(j) nltk3.2.2
             if isinstance(k, unicode):
                 k = k.encode('ascii','ignore')
             if (not k.isdigit()):
@@ -64,13 +64,13 @@ def freqWord(word_list):
     all_words = FreqDist(word_list)
     return [i[0] for i in all_words.most_common(2000)]
 
-def useFilter(string_list, need_freq):
+def useFilter(string_list, need_freq, removeWords):
     #returns filtered as list of string, also return the most common words
     return_text = []
     return_list = []
     n = 0
     for string in string_list:
-        filtered = filter(string)
+        filtered = filter(string, removeWords)
         return_text.append(' '.join(filtered))
         if need_freq is True:
             return_list = return_list + filtered

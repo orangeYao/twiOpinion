@@ -35,6 +35,10 @@ def getFollower(username, path, followFriend, outputtingName):
             for friend2 in intersect:
                 if friend in id_name_dict and friend2 in id_name_dict:
                     id_list.append(str(id_name_dict[friend]) + " pp " + str (id_name_dict[friend2]))
+
+            # add the not connected node 'friend'
+            if (friend in id_name_dict) and (len(intersect) == 0):
+                id_list.append(str(id_name_dict[friend]))
             writeList(id_list, outputtingName)
 
     else:

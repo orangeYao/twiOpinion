@@ -162,7 +162,7 @@ class App(tk.Frame):
             return 0
 
         if self.followFriend == "net":
-            self.outputtingName = self.l2.get() + "/" + self.l1.get() + "_chain.txt" 
+            self.outputtingName = self.l2.get() + "/" + self.l1.get() + "_net.txt" 
         elif self.followFriend == "followers":
             self.outputtingName = self.l2.get() + "/" + self.l1.get() + "_follower.txt"
         else:

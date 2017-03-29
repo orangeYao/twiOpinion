@@ -1,9 +1,8 @@
 import functions
 import sklearnClassify
-import pandas as pd
 import random
 
-def learnfunction(path, pathTweet, numberUsedAll, numberUnlabeled, algorithm): 
+def learnfunction(path, pathTweet, numberUsedAll, numberUnlabeled, algorithm, removeWords): 
     numberForTraining = int (0.8 * numberUsedAll)
     numberForTesting = int (0.2 * numberUsedAll)
     input_list, input_score = functions.readTestComment(path, numberUsedAll) 
@@ -14,14 +13,9 @@ def learnfunction(path, pathTweet, numberUsedAll, numberUnlabeled, algorithm):
     input_list = [input_list[i] for i in randomSelect]
     input_score = [input_score[i] for i in randomSelect]
 
-    filtered, freq_words = functions.useFilter(input_list, True)
-    f_tweets = functions.useFilter(tweets, False)
+    filtered, freq_words = functions.useFilter(input_list, True, removeWords)
+    f_tweets = functions.useFilter(tweets, False, removeWords)
     f_tweets = f_tweets[0:numberUnlabeled]
-
-    raw = functions.formRawDict(filtered, input_score)
-    df = pd.DataFrame(raw)
-    wordList = list(df.itertuples(index = False, name = None))
-    wordList = functions.filterZeroScore(wordList)
 
     accuracy = []
     support = []
@@ -29,11 +23,6 @@ def learnfunction(path, pathTweet, numberUsedAll, numberUnlabeled, algorithm):
     const_repeat = 5
     for i in range(1,const_repeat):
         print i
-        random.shuffle(wordList)
-        wordList = wordList[0:numberUsedAll]
-        trainingList = wordList[:numberForTraining]
-        testList = wordList[numberForTraining:]
-
     
         writeOut = False
         if algorithm == 4:
